@@ -1,8 +1,16 @@
 # RUNBOOK – TEILEKLAR.shop vorübergehend offline nehmen (Coming-Soon-Seite)
 
 **Status dieses Pakets: `OFFLINE_VORBEREITET`.**
-Es wurde kein Cutover ausgeführt. teileklar.shop ist unverändert online
-(Vergleichsstand: `pruefung/vorher-2026-11-22.txt`, 22.11.2026, 18:42–18:45 UTC).
+Aus diesem Repository heraus wurde kein Cutover und kein Deploy ausgeführt.
+Vergleichsstand des Shops vor jeder Schaltung: `pruefung/vorher-2026-11-22.txt`
+(22.11.2026, 18:42–18:45 UTC).
+
+Beobachtung per GET am 22.11.2026, 19:14 UTC: `/` liefert die Coming-Soon-Seite
+(200), `/shop` und `/favicon.ico` liefern 503, die Rechtsseiten 200. Die
+Schaltung am Rand (Cloudflare Worker) wurde außerhalb dieses Repositorys
+vorgenommen. Ob der Ursprungsserver selbst gesperrt ist (nginx-Regelblock,
+Abschnitt 3), ist nicht belegt; solange gilt Abschnitt 5: Der Worker allein
+erfüllt „serverseitig deaktiviert" nicht.
 
 Dieses Runbook führt der Inhaber aus. Jeder Schritt in Abschnitt 3 verändert
 die Produktion; Abschnitt 2 muss vorher vollständig erledigt sein.
