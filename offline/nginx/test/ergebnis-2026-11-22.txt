@@ -1,4 +1,4 @@
-Lokaler Test des nginx-Regelblocks – 2026-11-22 19:01:03 UTC
+Lokaler Test des nginx-Regelblocks – 2026-11-22 19:15:22 UTC
 nginx: nginx version: nginx/1.24.0 (Ubuntu)
 Arbeitsverzeichnis: <ARBEIT>
 
@@ -9,10 +9,10 @@ OK      nginx -t Variante B (statische Kopien, Originaldatei unverändert)
 == 2. Lesende Methoden, Variante B (readback.sh, beide Hostnamen) ==
 TEILEKLAR.shop – Readback gegen das Offline-Soll
 Modus:      nachher
-Beginn UTC: 2026-11-22 19:01:04
+Beginn UTC: 2026-11-22 19:15:23
 Hosts:      teileklar.shop www.teileklar.shop
 Schema:     http   Verbindung an: 127.0.0.1:18080
-Pfadliste:  pfade.tsv (73 Pfade)
+Pfadliste:  pfade.tsv (80 Pfade)
 Methoden:   GET HEAD OPTIONS (kein POST, keine Weiterleitungen)
 
 HOST                METHODE PFAD                            KLASSE   IST  SOLL RETRY  X-ROBOTS-TAG     CACHE-CTRL HSTS ERGEBNIS
@@ -67,6 +67,18 @@ teileklar.shop      OPTIONS /be-fr/sw.js                    STATISCH 503  503  8
 teileklar.shop      GET     /lu/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
 teileklar.shop      HEAD    /lu/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
 teileklar.shop      OPTIONS /lu/sw.js                       STATISCH 503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /favicon.svg                    ICON     200  200  -      -                public, ma nein OK
+teileklar.shop      HEAD    /favicon.svg                    ICON     200  200  -      -                public, ma nein OK
+teileklar.shop      OPTIONS /favicon.svg                    ICON     503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /favicon.ico                    ICON     200  200  -      -                public, ma nein OK
+teileklar.shop      HEAD    /favicon.ico                    ICON     200  200  -      -                public, ma nein OK
+teileklar.shop      OPTIONS /favicon.ico                    ICON     503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /apple-touch-icon.png           KEIN404  404  404  -      noindex          no-store   nein OK
+teileklar.shop      HEAD    /apple-touch-icon.png           KEIN404  404  404  -      noindex          no-store   nein OK
+teileklar.shop      OPTIONS /apple-touch-icon.png           KEIN404  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /apple-touch-icon-precomposed.png KEIN404  404  404  -      noindex          no-store   nein OK
+teileklar.shop      HEAD    /apple-touch-icon-precomposed.png KEIN404  404  404  -      noindex          no-store   nein OK
+teileklar.shop      OPTIONS /apple-touch-icon-precomposed.png KEIN404  503  503  86400  noindex          no-store   nein OK
 teileklar.shop      GET     /api/revolut/webhook            WEBHOOK  503  503  86400  noindex          no-store   nein OK
 teileklar.shop      HEAD    /api/revolut/webhook            WEBHOOK  503  503  86400  noindex          no-store   nein OK
 teileklar.shop      OPTIONS /api/revolut/webhook            WEBHOOK  503  503  86400  noindex          no-store   nein OK
@@ -205,6 +217,15 @@ teileklar.shop      OPTIONS /vendor/basis.css               HTML503  503  503  8
 teileklar.shop      GET     /index.html                     HTML503  503  503  86400  noindex          no-store   nein OK
 teileklar.shop      HEAD    /index.html                     HTML503  503  503  86400  noindex          no-store   nein OK
 teileklar.shop      OPTIONS /index.html                     HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /favicon.png                    HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /favicon.png                    HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /favicon.png                    HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /assets/icon-512.png            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /assets/icon-512.png            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /assets/icon-512.png            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /assets/nexify-ai/icon-512.png  HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /assets/nexify-ai/icon-512.png  HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /assets/nexify-ai/icon-512.png  HTML503  503  503  86400  noindex          no-store   nein OK
 teileklar.shop      GET     /offline.html                   HTML503  503  503  86400  noindex          no-store   nein OK
 teileklar.shop      HEAD    /offline.html                   HTML503  503  503  86400  noindex          no-store   nein OK
 teileklar.shop      OPTIONS /offline.html                   HTML503  503  503  86400  noindex          no-store   nein OK
@@ -286,6 +307,18 @@ www.teileklar.shop  OPTIONS /be-fr/sw.js                    STATISCH 503  503  8
 www.teileklar.shop  GET     /lu/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
 www.teileklar.shop  HEAD    /lu/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
 www.teileklar.shop  OPTIONS /lu/sw.js                       STATISCH 503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /favicon.svg                    ICON     200  200  -      -                public, ma nein OK
+www.teileklar.shop  HEAD    /favicon.svg                    ICON     200  200  -      -                public, ma nein OK
+www.teileklar.shop  OPTIONS /favicon.svg                    ICON     503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /favicon.ico                    ICON     200  200  -      -                public, ma nein OK
+www.teileklar.shop  HEAD    /favicon.ico                    ICON     200  200  -      -                public, ma nein OK
+www.teileklar.shop  OPTIONS /favicon.ico                    ICON     503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /apple-touch-icon.png           KEIN404  404  404  -      noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /apple-touch-icon.png           KEIN404  404  404  -      noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /apple-touch-icon.png           KEIN404  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /apple-touch-icon-precomposed.png KEIN404  404  404  -      noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /apple-touch-icon-precomposed.png KEIN404  404  404  -      noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /apple-touch-icon-precomposed.png KEIN404  503  503  86400  noindex          no-store   nein OK
 www.teileklar.shop  GET     /api/revolut/webhook            WEBHOOK  503  503  86400  noindex          no-store   nein OK
 www.teileklar.shop  HEAD    /api/revolut/webhook            WEBHOOK  503  503  86400  noindex          no-store   nein OK
 www.teileklar.shop  OPTIONS /api/revolut/webhook            WEBHOOK  503  503  86400  noindex          no-store   nein OK
@@ -424,6 +457,15 @@ www.teileklar.shop  OPTIONS /vendor/basis.css               HTML503  503  503  8
 www.teileklar.shop  GET     /index.html                     HTML503  503  503  86400  noindex          no-store   nein OK
 www.teileklar.shop  HEAD    /index.html                     HTML503  503  503  86400  noindex          no-store   nein OK
 www.teileklar.shop  OPTIONS /index.html                     HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /favicon.png                    HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /favicon.png                    HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /favicon.png                    HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /assets/icon-512.png            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /assets/icon-512.png            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /assets/icon-512.png            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /assets/nexify-ai/icon-512.png  HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /assets/nexify-ai/icon-512.png  HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /assets/nexify-ai/icon-512.png  HTML503  503  503  86400  noindex          no-store   nein OK
 www.teileklar.shop  GET     /offline.html                   HTML503  503  503  86400  noindex          no-store   nein OK
 www.teileklar.shop  HEAD    /offline.html                   HTML503  503  503  86400  noindex          no-store   nein OK
 www.teileklar.shop  OPTIONS /offline.html                   HTML503  503  503  86400  noindex          no-store   nein OK
@@ -455,10 +497,10 @@ www.teileklar.shop  GET     /pruefpfad-nicht-vorhanden      HTML503  503  503  8
 www.teileklar.shop  HEAD    /pruefpfad-nicht-vorhanden      HTML503  503  503  86400  noindex          no-store   nein OK
 www.teileklar.shop  OPTIONS /pruefpfad-nicht-vorhanden      HTML503  503  503  86400  noindex          no-store   nein OK
 
-Ende UTC:     2026-11-22 19:01:09
-Abrufe:       438
+Ende UTC:     2026-11-22 19:15:30
+Abrufe:       480
 Abweichungen: 0
-Hinweis:      438 Antworten ohne Strict-Transport-Security (kein Abnahmekriterium, siehe RUNBOOK Abschnitt 6)
+Hinweis:      480 Antworten ohne Strict-Transport-Security (kein Abnahmekriterium, siehe RUNBOOK Abschnitt 6)
 Nicht geprüft: POST an /api/revolut/webhook (dieses Skript sendet kein POST)
 GESAMT:       IM SOLL
 OK      readback.sh: alle Pfade im Soll
@@ -490,6 +532,8 @@ OK      POST /werkstatt-partner -> 503 (Soll 503) – gesperrt, Offline-Seite
 OK      POST /myadmin -> 503 (Soll 503) – gesperrt, Offline-Seite
 OK      POST /sw.js -> 503 (Soll 503) – gesperrt, Offline-Seite
 OK      POST /robots.txt -> 503 (Soll 503) – gesperrt, Offline-Seite
+OK      POST /favicon.ico -> 503 (Soll 503) – Icon mit POST gesperrt
+OK      GET /favicon.ico -> 200 (Soll 200) – Icon: Cache-Control
 OK      POST /shop -> 503 (Soll 503) – Kopfzeile X-Robots-Tag bei 503
 OK      POST /shop -> 503 (Soll 503) – Kopfzeile Cache-Control bei 503
 OK      GET /__tk_offline_503.html -> 404 (Soll 404) – interne Hilfsadresse ist von außen nicht abrufbar (404)
@@ -502,7 +546,7 @@ OK      GET / -> 200 (Soll 200) – Offline-Seite bleibt erreichbar
 OK      GET /impressum -> 200 (Soll 200) – Rechtsseite bleibt erreichbar (Variante B)
 
 == 5. Variante A (Durchreichen der Rechtsseiten) ==
-2026/11/22 19:01:10 [notice] 22825#22825: signal process started
+2026/11/22 19:15:31 [notice] 975#975: signal process started
 OK      GET /impressum -> 200 (Soll 200) – Rechtsseite kommt vom Dienst
 OK      POST /impressum -> 503 (Soll 503) – Rechtsseite mit POST gesperrt
 OK      GET /shop -> 503 (Soll 503) – Shop bleibt gesperrt
@@ -510,6 +554,6 @@ OK      GET /api/shop/products -> 503 (Soll 503) – API bleibt gesperrt
 OK      Beim Dienst kam genau 1 Anfrage an (/impressum)
 
 Fehlerprotokoll nginx (warn und höher): 1 Zeilen
-  2026/11/22 19:01:10 [error] 19003#19003: *472 connect() failed (111: Connection refused) while connecting to upstream, client: 127.0.0.1, server: teileklar.shop, request: "POST /api/revolut/webhook HTTP/1.1", upstream:
+  2026/11/22 19:15:31 [error] 29381#29381: *516 connect() failed (111: Connection refused) while connecting to upstream, client: 127.0.0.1, server: teileklar.shop, request: "POST /api/revolut/webhook HTTP/1.1", upstream:
 
 GESAMT: BESTANDEN

@@ -11,14 +11,14 @@ import { fileURLToPath } from 'node:url';
 import { erzeuge as erzeugeAssets } from './build-assets.mjs';
 
 const hier = path.dirname(fileURLToPath(import.meta.url));
-const IMPORTZEILE = "import { OFFLINE_HTML, SW_JS } from './assets.generated.js';";
+const IMPORTZEILE = "import { OFFLINE_HTML, SW_JS, FAVICON_SVG } from './assets.generated.js';";
 
 export function erzeugeBundle() {
   const quelle = fs.readFileSync(path.join(hier, 'worker.js'), 'utf8');
   if (!quelle.includes(IMPORTZEILE)) throw new Error('Importzeile in worker.js nicht gefunden');
   const inhalte = erzeugeAssets()
     .split('\n')
-    .filter((zeile) => zeile.startsWith('export const OFFLINE_HTML') || zeile.startsWith('export const SW_JS'))
+    .filter((zeile) => ['OFFLINE_HTML', 'SW_JS', 'FAVICON_SVG'].some((name) => zeile.startsWith(`export const ${name} =`)))
     .map((zeile) => zeile.replace(/^export const/, 'const'))
     .join('\n');
   const bundle =

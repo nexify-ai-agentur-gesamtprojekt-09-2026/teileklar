@@ -5,6 +5,8 @@
 # SEITE     GET/HEAD 200, Offline-Seite, X-Robots-Tag noindex, Cache-Control no-store
 # RECHT     GET/HEAD 200, Rechtsseite
 # STATISCH  GET/HEAD 200, Datei des Offline-Zustands
+# ICON      GET/HEAD 200, Content-Type image/svg+xml (eigenes Icon)
+# KEIN404   GET/HEAD 404 (bewusst kein Rasterbild), kein Location
 # WEBHOOK   nur POST wird an den Dienst gereicht (wird hier NICHT gesendet); sonst 503 JSON
 # API503    503 JSON für jede Methode
 # HTML503   503 mit Offline-Seite für jede Methode
@@ -26,6 +28,10 @@ STATISCH	/nl/sw.js
 STATISCH	/be-nl/sw.js
 STATISCH	/be-fr/sw.js
 STATISCH	/lu/sw.js
+ICON	/favicon.svg
+ICON	/favicon.ico
+KEIN404	/apple-touch-icon.png
+KEIN404	/apple-touch-icon-precomposed.png
 WEBHOOK	/api/revolut/webhook
 API503	/api/
 API503	/api/shop/products
@@ -72,6 +78,9 @@ HTML503	/manifest.webmanifest
 HTML503	/support.js
 HTML503	/vendor/basis.css
 HTML503	/index.html
+HTML503	/favicon.png
+HTML503	/assets/icon-512.png
+HTML503	/assets/nexify-ai/icon-512.png
 HTML503	/offline.html
 HTML503	/legal/impressum.html
 HTML503	/impressum/

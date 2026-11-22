@@ -161,6 +161,22 @@ pruefe() { # $1=Host $2=Methode $3=Klasse $4=Pfad
       else
         soll="503"; pruefe_503
       fi ;;
+    ICON)
+      if [ "$lesend" = 1 ]; then
+        soll="200"
+        [ "$IST_STATUS" = "200" ] || GRUND+="Status ${IST_STATUS:-?} statt 200; "
+        case "${IST_TYP,,}" in image/svg+xml*) ;; *) GRUND+="Content-Type '${IST_TYP}' statt image/svg+xml; " ;; esac
+        if [ "$methode" = GET ] && ! grep -q '<svg' "$koerper"; then GRUND+="Inhalt ist kein SVG; "; fi
+      else
+        soll="503"; pruefe_503
+      fi ;;
+    KEIN404)
+      if [ "$lesend" = 1 ]; then
+        soll="404"
+        [ "$IST_STATUS" = "404" ] || GRUND+="Status ${IST_STATUS:-?} statt 404; "
+      else
+        soll="503"; pruefe_503
+      fi ;;
     WEBHOOK|API503)
       soll="503"; pruefe_503
       if [ "$methode" = GET ]; then

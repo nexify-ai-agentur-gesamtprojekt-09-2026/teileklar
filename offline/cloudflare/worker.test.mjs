@@ -30,6 +30,8 @@ const SOLL = {
   SEITE: ['seite', 'html503', 'html503'],
   RECHT: ['ursprung', 'html503', 'html503'],
   STATISCH: [null, 'html503', 'html503'], // lesend: sw oder ursprung (robots, sitemap, security.txt)
+  ICON: ['icon', 'html503', 'html503'],
+  KEIN404: ['nicht404', 'html503', 'html503'],
   WEBHOOK: ['api503', 'api503', 'ursprung'],
   API503: ['api503', 'api503', 'api503'],
   HTML503: ['html503', 'html503', 'html503'],
@@ -56,6 +58,24 @@ test('Pfadliste ist geladen', () => {
 
 test('assets.generated.js ist aktuell (entspricht den Dateien in offline/)', () => {
   assert.equal(fs.readFileSync(path.join(hier, 'assets.generated.js'), 'utf8'), erzeuge());
+});
+
+test('Icon: nur Markenfarben, keine fremden Verweise; in offline.html identisch eingebettet', () => {
+  const svg = lies('favicon.svg').trim();
+  const farben = [...svg.matchAll(/#[0-9A-Fa-f]{6}/g)].map((m) => m[0].toUpperCase()).sort();
+  assert.deepEqual(farben, ['#0E1315', '#C8F04B']);
+  assert.doesNotMatch(svg.replace('http://www.w3.org/2000/svg', ''), /https?:|href|<image|<script|<text/i);
+  const html = lies('offline.html');
+  assert.ok(html.includes(`<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,${encodeURIComponent(svg)}">`));
+  assert.equal([...html.matchAll(/rel="[^"]*icon[^"]*"/g)].length, 1);
+});
+
+test('Seite: keine externen Verweise, kein Hinweis auf fremde Werkzeuge', () => {
+  const html = lies('offline.html');
+  assert.doesNotMatch(html, /lovable/i);
+  assert.doesNotMatch(html, /<meta[^>]+generator/i);
+  assert.doesNotMatch(html, /(?:src|href)="https?:/i);
+  assert.doesNotMatch(html, /<script|<img|<iframe|url\(/i);
 });
 
 test('dist/worker.bundle.mjs ist aktuell und eine einzelne Datei ohne Import', () => {
@@ -193,6 +213,33 @@ for (const [name, modul] of [['worker.js', quellmodul], ['dist/worker.bundle.mjs
     }
     pruefe503(await handle(anfrage('GET', '/shop/sw.js'), nie), '/shop/sw.js');
     pruefe503(await handle(anfrage('POST', '/sw.js'), nie), 'POST /sw.js');
+  });
+
+  t('Icon: /favicon.svg und /favicon.ico liefern das eigene SVG direkt, ohne Weiterleitung', async () => {
+    for (const pfad of ['/favicon.svg', '/favicon.ico']) {
+      const res = await handle(anfrage('GET', pfad), nie);
+      assert.equal(res.status, 200, pfad);
+      assert.equal(res.headers.get('Content-Type'), 'image/svg+xml');
+      assert.equal(res.headers.get('Cache-Control'), 'public, max-age=86400');
+      assert.equal(res.headers.get('Location'), null);
+      assert.equal(await res.text(), lies('favicon.svg'));
+      const kopf = await handle(anfrage('HEAD', pfad), nie);
+      assert.equal(kopf.status, 200);
+      assert.equal(await kopf.text(), '');
+      pruefe503(await handle(anfrage('POST', pfad), nie), `POST ${pfad}`);
+    }
+  });
+
+  t('Apple-Touch-Icons: 404 statt 503, kein Inhalt vom Ursprung', async () => {
+    for (const pfad of ['/apple-touch-icon.png', '/apple-touch-icon-precomposed.png']) {
+      const res = await handle(anfrage('GET', pfad), nie);
+      assert.equal(res.status, 404, pfad);
+      assert.equal(res.headers.get('Location'), null);
+      assert.equal(res.headers.get('Cache-Control'), 'no-store');
+      pruefe503(await handle(anfrage('POST', pfad), nie), `POST ${pfad}`);
+    }
+    pruefe503(await handle(anfrage('GET', '/favicon.png'), nie), '/favicon.png');
+    pruefe503(await handle(anfrage('GET', '/assets/icon-512.png'), nie), '/assets/icon-512.png');
   });
 
   t('Fail closed: scheitert die Entscheidung, gibt es 503 – nie den Shop', async () => {

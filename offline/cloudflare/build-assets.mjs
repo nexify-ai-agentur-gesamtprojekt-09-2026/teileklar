@@ -1,6 +1,6 @@
 // Erzeugt assets.generated.js aus den Dateien in offline/, damit der Worker
 // dieselben Inhalte ausliefert wie nginx. Nach jeder Änderung an offline.html,
-// sw.js, robots.txt oder sitemap.xml ausführen:
+// sw.js, favicon.svg, robots.txt oder sitemap.xml ausführen:
 //
 //     node offline/cloudflare/build-assets.mjs
 //
@@ -15,6 +15,7 @@ const offline = path.resolve(hier, '..');
 export const QUELLEN = {
   OFFLINE_HTML: 'offline.html',
   SW_JS: 'sw.js',
+  FAVICON_SVG: 'favicon.svg',
   ROBOTS_TXT: 'robots.txt',
   SITEMAP_XML: 'sitemap.xml',
 };

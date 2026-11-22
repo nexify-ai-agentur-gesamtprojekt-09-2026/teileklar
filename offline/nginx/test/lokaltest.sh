@@ -27,7 +27,7 @@ command -v nginx >/dev/null || { echo "nginx fehlt – Syntax nicht geprüft"; e
 command -v node  >/dev/null || { echo "node fehlt"; exit 2; }
 
 mkdir -p "$ARBEIT/webroot/legal" "$ARBEIT/webroot/.well-known" "$ARBEIT/logs" "$ARBEIT/tmp"
-cp "$OFFLINE/offline.html" "$OFFLINE/sw.js" "$OFFLINE/robots.txt" "$OFFLINE/sitemap.xml" "$ARBEIT/webroot/"
+cp "$OFFLINE/offline.html" "$OFFLINE/sw.js" "$OFFLINE/favicon.svg" "$OFFLINE/robots.txt" "$OFFLINE/sitemap.xml" "$ARBEIT/webroot/"
 for name in impressum datenschutz agb widerruf versand; do
   printf '<!doctype html><html lang="de"><title>Testkopie %s</title><p>Testkopie der Rechtsseite %s</p></html>\n' "$name" "$name" \
     > "$ARBEIT/webroot/legal/$name.html"
@@ -138,6 +138,8 @@ anfrage "Webhook mit DELETE gesperrt" 503 DELETE /api/revolut/webhook 'service_u
 for pfad in / /impressum /shop /konto /partner-werden /werkstatt-partner /myadmin /sw.js /robots.txt; do
   anfrage "gesperrt, Offline-Seite" 503 POST "$pfad" 'vorübergehend nicht verfügbar' 'retry-after: 86400'
 done
+anfrage "Icon mit POST gesperrt" 503 POST /favicon.ico 'vorübergehend nicht verfügbar' 'retry-after: 86400'
+anfrage "Icon: Cache-Control" 200 GET /favicon.ico '<svg' 'cache-control: public, max-age=86400'
 anfrage "Kopfzeile X-Robots-Tag bei 503"  503 POST /shop '' 'x-robots-tag: noindex'
 anfrage "Kopfzeile Cache-Control bei 503" 503 POST /shop '' 'cache-control: no-store'
 anfrage "interne Hilfsadresse ist von außen nicht abrufbar (404)" 404 GET /__tk_offline_503.html

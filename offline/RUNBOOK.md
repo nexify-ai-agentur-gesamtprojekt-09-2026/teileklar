@@ -22,6 +22,8 @@ sind unverändert.
 | `GET/HEAD /impressum /datenschutz /agb /widerruf /versand` | 200, Rechtsseite |
 | `GET/HEAD /robots.txt /sitemap.xml /.well-known/security.txt` | 200 |
 | `GET/HEAD /sw.js` und `/<markt>/sw.js` | 200, Abschalt-Service-Worker |
+| `GET/HEAD /favicon.svg /favicon.ico` | 200, eigenes Icon als SVG (`image/svg+xml`) |
+| `GET/HEAD /apple-touch-icon.png`, `/apple-touch-icon-precomposed.png` | 404 (kein Rasterbild vorhanden) |
 | `POST /api/revolut/webhook` | unverändert an den API-Dienst (Port 8905) |
 | alles andere unter `/api/` (jede Methode) | 503, kurze JSON-Antwort |
 | alles andere (jede Methode) | 503, Coming-Soon-Seite als Inhalt |
@@ -40,6 +42,7 @@ Dateien:
 | Datei | Zweck |
 |---|---|
 | `offline.html` | Coming-Soon-Seite im Erscheinungsbild des Shops (eine Datei, keine externen Ressourcen, kein Datum, kein Formular) |
+| `favicon.svg` | eigenes Icon: dunkle Kachel `#0E1315`, „T" in `#C8F04B`; in `offline.html` zusätzlich eingebettet |
 | `sw.js` | löscht Browser-Caches, meldet den alten Service Worker ab, lädt neu |
 | `robots.txt`, `sitemap.xml` | Stand für den Offline-Zustand |
 | `nginx/teileklar-offline.conf` | Regelblock zum Einbinden (Allowlist) |
@@ -196,12 +199,12 @@ Kein Neustart des API-Dienstes. Keine Änderung an Daten, DNS, TLS oder Cloudfla
 **3.1 Dateien ablegen**
 ```bash
 sudo mkdir -p /var/www/teileklar-offline
-sudo cp offline.html sw.js robots.txt sitemap.xml /var/www/teileklar-offline/
+sudo cp offline.html sw.js favicon.svg robots.txt sitemap.xml /var/www/teileklar-offline/
 sudo cp nginx/teileklar-offline.conf /etc/nginx/snippets/teileklar-offline.conf
 sudo chmod -R a+rX /var/www/teileklar-offline
 ls -la /var/www/teileklar-offline /var/www/teileklar-offline/legal /var/www/teileklar-offline/.well-known
 ```
-Erwartet: `offline.html`, `sw.js`, `robots.txt`, `sitemap.xml`, fünf Dateien
+Erwartet: `offline.html`, `sw.js`, `favicon.svg`, `robots.txt`, `sitemap.xml`, fünf Dateien
 in `legal/`, `security.txt` in `.well-known/`.
 
 **3.2 Annahmen im Regelblock gegen die bisherige Konfiguration prüfen**
@@ -263,7 +266,8 @@ Das Skript sendet nur GET, HEAD und OPTIONS und folgt keinen Weiterleitungen.
   | tee nachher-ursprung-$(date -u +%Y-%m-%dT%H%MZ).txt
 ```
 Rückgabewert 0 und `GESAMT: IM SOLL` = bestanden. Jede Zeile mit
-`ABWEICHUNG` nennt den Grund. 73 Pfade × 2 Hostnamen × 3 Methoden = 438 Abrufe.
+`ABWEICHUNG` nennt den Grund. 80 Pfade × 2 Hostnamen × 3 Methoden = 480 Abrufe.
+(Der Vorher-Stand vom 22.11.2026 entstand mit 73 Pfaden, vor Aufnahme der Icon-Pfade.)
 
 Das Skript prüft **nicht**:
 - `POST /api/revolut/webhook` (es sendet kein POST). Nachweis: Im
@@ -289,8 +293,8 @@ Importe). Unterschiede zu nginx:
 - Rechtsseiten, `/versand`, `/robots.txt`, `/sitemap.xml` und
   `/.well-known/security.txt` reicht der Worker unverändert an den Ursprung
   durch (`fetch(request)`), ebenso `POST /api/revolut/webhook`.
-- Die Coming-Soon-Seite und den Abschalt-Service-Worker (`/sw.js`,
-  `/<markt>/sw.js`) liefert er selbst.
+- Die Coming-Soon-Seite, den Abschalt-Service-Worker (`/sw.js`,
+  `/<markt>/sw.js`) und das Icon (`/favicon.svg`, `/favicon.ico`) liefert er selbst.
 - **Folge, wenn nur der Worker aktiv ist** (ohne den nginx-Regelblock):
   `robots.txt` und `sitemap.xml` kommen in der bisherigen Fassung vom
   Ursprung – mit `Disallow: /api/` und mit den Shop-Adressen in der Sitemap,
@@ -334,6 +338,12 @@ Nicht getestet: der Worker in der Cloudflare-Laufzeit (nur lokal mit Node).
   wenige Sekunden nach dem Laden, mit einem automatischen Neuladen. Wer die
   Seite nicht mehr besucht, behält den Cache, ohne dass er etwas bewirkt.
   Beim Wiederöffnen muss der Shop seinen Service Worker wieder ausliefern.
+- **Icon:** Die Coming-Soon-Seite trägt ihr Icon eingebettet; sie fragt kein
+  `/favicon.ico` an. `/favicon.ico` liefert dasselbe SVG direkt, für Seiten
+  ohne eigenes Icon (z. B. `/versand`). Browser, die kein SVG als Icon
+  anzeigen, zeigen keines; ein Rasterbild (ICO/PNG) gibt es bewusst nicht.
+  Die vier Rechtsseiten verweisen auf `/assets/nexify-ai/icon-512.png`; dieser
+  Pfad antwortet mit 503, dort erscheint also kein Icon.
 - **Installierte Web-App:** `/manifest.webmanifest` und die Icons antworten
   mit 503. Eine installierte App zeigt die Coming-Soon-Seite.
 - **Suchmaschinen:** 503 mit `Retry-After` gilt als vorübergehend. Bleibt
@@ -476,8 +486,8 @@ Bis dahin bleibt der Status `OFFLINE_VORBEREITET`.
 | Test | Ergebnis |
 |---|---|
 | `nginx -t` mit dem Regelblock, Variante B und A (nginx 1.24.0, lokal) | bestanden |
-| `nginx/test/lokaltest.sh`: lokales nginx + Attrappe als Dienst; 438 lesende Abrufe über `readback.sh`, schreibende Anfragen (POST/PUT/DELETE, nur gegen 127.0.0.1), Ausfall des Dienstes, Variante A | 42 von 42 Prüfungen bestanden – `nginx/test/ergebnis-2026-11-22.txt` |
-| `node --test cloudflare/worker.test.mjs` (je Test gegen `worker.js` und gegen `dist/worker.bundle.mjs`, inkl. Fail-closed) | 27 von 27 bestanden |
+| `nginx/test/lokaltest.sh`: lokales nginx + Attrappe als Dienst; 480 lesende Abrufe über `readback.sh`, schreibende Anfragen (POST/PUT/DELETE, nur gegen 127.0.0.1), Ausfall des Dienstes, Variante A | 44 von 44 Prüfungen bestanden – `nginx/test/ergebnis-2026-11-22.txt` |
+| `node --test cloudflare/worker.test.mjs` (je Test gegen `worker.js` und gegen `dist/worker.bundle.mjs`, inkl. Fail-closed und Icon) | 33 von 33 bestanden |
 | `pruefung/sw-lokaltest.mjs` (Chromium), auch mit einer Kopie des bisherigen `sw.js` | 8 von 8 bestanden |
 | `offline.html` bei 320 px, 640 px (entspricht 200 % Zoom bei 1280 px) und 1280 px, doppelte Schriftgröße, Tastaturfokus | kein waagrechter Überlauf, keine externe Anfrage |
 | Kontrast (WCAG): Akzent `#C8F04B` auf `#0E1315` 14,27:1, auf `#14191C` 13,51:1; Text `#B4B5B6` auf `#0E1315` 9,11:1, auf `#14191C` 8,63:1; Weiß 18,71:1 / 17,71:1 | AA erfüllt (≥ 4,5:1) |
