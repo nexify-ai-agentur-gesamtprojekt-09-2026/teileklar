@@ -1,0 +1,24 @@
+# BEISPIEL – nicht aktiv. Kein Deploy durch dieses Repository.
+# Zum Verwenden nach wrangler.toml kopieren. Enthält keine Geheimnisse; die
+# Anmeldung bei Cloudflare erfolgt durch den Inhaber ("wrangler login").
+#
+# Hinweis: Der Worker allein erfüllt "serverseitig deaktiviert" nicht, solange
+# der Ursprungsserver direkt erreichbar ist (RUNBOOK, Abschnitt 5).
+
+name = "teileklar-offline"
+main = "worker.js"
+compatibility_date = "2026-01-01"
+workers_dev = false
+
+# Beide Hostnamen. Voraussetzung: beide DNS-Einträge laufen über Cloudflare (proxied).
+routes = [
+  { pattern = "teileklar.shop/*", zone_name = "teileklar.shop" },
+  { pattern = "www.teileklar.shop/*", zone_name = "teileklar.shop" },
+]
+
+# Vor dem Deploy (durch den Inhaber):
+#   node build-assets.mjs            # Inhalte aus offline/ übernehmen
+#   node build-bundle.mjs            # dist/worker.bundle.mjs (eine Datei, ohne Bundler hochladbar)
+#   node --test worker.test.mjs      # muss bestehen
+#   wrangler deploy --dry-run        # baut, ohne zu veröffentlichen
+# Rückweg: Routen im Cloudflare-Dashboard entfernen oder "wrangler delete".

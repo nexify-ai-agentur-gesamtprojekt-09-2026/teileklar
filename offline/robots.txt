@@ -1,0 +1,10 @@
+# teileklar.shop – vorübergehend nicht verfügbar (Offline-Zustand).
+#
+# Bewusst KEIN Disallow: Suchmaschinen sollen die gesperrten Adressen abrufen
+# dürfen und dort den Status 503 mit Retry-After sehen. Ein Disallow würde den
+# Abruf verhindern; die Adressen blieben dann mit ihrem alten Stand bekannt.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://teileklar.shop/sitemap.xml

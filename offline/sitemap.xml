@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- teileklar.shop im Offline-Zustand: nur Startseite und Rechtsseiten (alle mit Status 200). -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://teileklar.shop/</loc></url>
+  <url><loc>https://teileklar.shop/impressum</loc></url>
+  <url><loc>https://teileklar.shop/datenschutz</loc></url>
+  <url><loc>https://teileklar.shop/agb</loc></url>
+  <url><loc>https://teileklar.shop/widerruf</loc></url>
+  <url><loc>https://teileklar.shop/versand</loc></url>
+</urlset>

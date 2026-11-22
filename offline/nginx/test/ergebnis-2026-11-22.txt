@@ -1,0 +1,609 @@
+Lokaler Test des nginx-Regelblocks – 2026-11-22 19:31:19 UTC
+nginx: nginx version: nginx/1.24.0 (Ubuntu)
+Arbeitsverzeichnis: <ARBEIT>
+
+== 1. Syntax ==
+OK      nginx -t Variante A (Durchreichen)
+OK      nginx -t Variante B (statische Kopien, Originaldatei unverändert)
+
+== 2. Lesende Methoden, Variante B (readback.sh, beide Hostnamen) ==
+TEILEKLAR.shop – Readback gegen das Offline-Soll
+Modus:      nachher
+Beginn UTC: 2026-11-22 19:31:20
+Hosts:      teileklar.shop www.teileklar.shop
+Schema:     http   Verbindung an: 127.0.0.1:18080
+Pfadliste:  pfade.tsv (88 Pfade)
+Methoden:   GET HEAD OPTIONS (kein POST, keine Weiterleitungen)
+
+HOST                METHODE PFAD                            KLASSE   IST  SOLL RETRY  X-ROBOTS-TAG     CACHE-CTRL HSTS ERGEBNIS
+teileklar.shop      GET     /                               SEITE    200  200  -      noindex          no-store   nein OK
+teileklar.shop      HEAD    /                               SEITE    200  200  -      noindex          no-store   nein OK
+teileklar.shop      OPTIONS /                               SEITE    503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /impressum                      RECHT    200  200  -      -                no-cache   nein OK
+teileklar.shop      HEAD    /impressum                      RECHT    200  200  -      -                no-cache   nein OK
+teileklar.shop      OPTIONS /impressum                      RECHT    503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /datenschutz                    RECHT    200  200  -      -                no-cache   nein OK
+teileklar.shop      HEAD    /datenschutz                    RECHT    200  200  -      -                no-cache   nein OK
+teileklar.shop      OPTIONS /datenschutz                    RECHT    503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /agb                            RECHT    200  200  -      -                no-cache   nein OK
+teileklar.shop      HEAD    /agb                            RECHT    200  200  -      -                no-cache   nein OK
+teileklar.shop      OPTIONS /agb                            RECHT    503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /widerruf                       RECHT    200  200  -      -                no-cache   nein OK
+teileklar.shop      HEAD    /widerruf                       RECHT    200  200  -      -                no-cache   nein OK
+teileklar.shop      OPTIONS /widerruf                       RECHT    503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /versand                        RECHT    200  200  -      -                no-cache   nein OK
+teileklar.shop      HEAD    /versand                        RECHT    200  200  -      -                no-cache   nein OK
+teileklar.shop      OPTIONS /versand                        RECHT    503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /robots.txt                     STATISCH 200  200  -      -                no-cache   nein OK
+teileklar.shop      HEAD    /robots.txt                     STATISCH 200  200  -      -                no-cache   nein OK
+teileklar.shop      OPTIONS /robots.txt                     STATISCH 503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /sitemap.xml                    STATISCH 200  200  -      -                no-cache   nein OK
+teileklar.shop      HEAD    /sitemap.xml                    STATISCH 200  200  -      -                no-cache   nein OK
+teileklar.shop      OPTIONS /sitemap.xml                    STATISCH 503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /.well-known/security.txt       STATISCH 200  200  -      -                no-cache   nein OK
+teileklar.shop      HEAD    /.well-known/security.txt       STATISCH 200  200  -      -                no-cache   nein OK
+teileklar.shop      OPTIONS /.well-known/security.txt       STATISCH 503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /sw.js                          STATISCH 200  200  -      -                no-store   nein OK
+teileklar.shop      HEAD    /sw.js                          STATISCH 200  200  -      -                no-store   nein OK
+teileklar.shop      OPTIONS /sw.js                          STATISCH 503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /de/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
+teileklar.shop      HEAD    /de/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
+teileklar.shop      OPTIONS /de/sw.js                       STATISCH 503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /at/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
+teileklar.shop      HEAD    /at/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
+teileklar.shop      OPTIONS /at/sw.js                       STATISCH 503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /ch/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
+teileklar.shop      HEAD    /ch/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
+teileklar.shop      OPTIONS /ch/sw.js                       STATISCH 503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /nl/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
+teileklar.shop      HEAD    /nl/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
+teileklar.shop      OPTIONS /nl/sw.js                       STATISCH 503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /be-nl/sw.js                    STATISCH 200  200  -      -                no-store   nein OK
+teileklar.shop      HEAD    /be-nl/sw.js                    STATISCH 200  200  -      -                no-store   nein OK
+teileklar.shop      OPTIONS /be-nl/sw.js                    STATISCH 503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /be-fr/sw.js                    STATISCH 200  200  -      -                no-store   nein OK
+teileklar.shop      HEAD    /be-fr/sw.js                    STATISCH 200  200  -      -                no-store   nein OK
+teileklar.shop      OPTIONS /be-fr/sw.js                    STATISCH 503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /lu/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
+teileklar.shop      HEAD    /lu/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
+teileklar.shop      OPTIONS /lu/sw.js                       STATISCH 503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /favicon.svg                    ICON     200  200  -      -                public, ma nein OK
+teileklar.shop      HEAD    /favicon.svg                    ICON     200  200  -      -                public, ma nein OK
+teileklar.shop      OPTIONS /favicon.svg                    ICON     503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /favicon.ico                    ICON     200  200  -      -                public, ma nein OK
+teileklar.shop      HEAD    /favicon.ico                    ICON     200  200  -      -                public, ma nein OK
+teileklar.shop      OPTIONS /favicon.ico                    ICON     503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /_tk/fonts/archivo-latin-wght-normal.woff2 SCHRIFT  200  200  -      -                public, ma nein OK
+teileklar.shop      HEAD    /_tk/fonts/archivo-latin-wght-normal.woff2 SCHRIFT  200  200  -      -                public, ma nein OK
+teileklar.shop      OPTIONS /_tk/fonts/archivo-latin-wght-normal.woff2 SCHRIFT  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /_tk/fonts/ibm-plex-mono-latin-500-normal.woff2 SCHRIFT  200  200  -      -                public, ma nein OK
+teileklar.shop      HEAD    /_tk/fonts/ibm-plex-mono-latin-500-normal.woff2 SCHRIFT  200  200  -      -                public, ma nein OK
+teileklar.shop      OPTIONS /_tk/fonts/ibm-plex-mono-latin-500-normal.woff2 SCHRIFT  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /_tk/og.jpg                     OGBILD   200  200  -      -                public, ma nein OK
+teileklar.shop      HEAD    /_tk/og.jpg                     OGBILD   200  200  -      -                public, ma nein OK
+teileklar.shop      OPTIONS /_tk/og.jpg                     OGBILD   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /apple-touch-icon.png           KEIN404  404  404  -      noindex          no-store   nein OK
+teileklar.shop      HEAD    /apple-touch-icon.png           KEIN404  404  404  -      noindex          no-store   nein OK
+teileklar.shop      OPTIONS /apple-touch-icon.png           KEIN404  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /apple-touch-icon-precomposed.png KEIN404  404  404  -      noindex          no-store   nein OK
+teileklar.shop      HEAD    /apple-touch-icon-precomposed.png KEIN404  404  404  -      noindex          no-store   nein OK
+teileklar.shop      OPTIONS /apple-touch-icon-precomposed.png KEIN404  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /api/revolut/webhook            WEBHOOK  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /api/revolut/webhook            WEBHOOK  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /api/revolut/webhook            WEBHOOK  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /api/                           API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /api/                           API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /api/                           API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /api/shop/products              API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /api/shop/products              API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /api/shop/products              API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /api/shop/image                 API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /api/shop/image                 API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /api/shop/image                 API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /api/vehicles/search            API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /api/vehicles/search            API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /api/vehicles/search            API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /api/fitment/search             API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /api/fitment/search             API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /api/fitment/search             API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /api/auth/me                    API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /api/auth/me                    API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /api/auth/me                    API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /api/auth/login                 API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /api/auth/login                 API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /api/auth/login                 API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /api/auth/register              API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /api/auth/register              API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /api/auth/register              API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /api/auth/verify                API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /api/auth/verify                API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /api/auth/verify                API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /api/auth/callback              API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /api/auth/callback              API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /api/auth/callback              API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /api/auth/guest                 API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /api/auth/guest                 API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /api/auth/guest                 API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /api/orders                     API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /api/orders                     API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /api/orders                     API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /api/orders/create              API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /api/orders/create              API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /api/orders/create              API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /api/garage                     API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /api/garage                     API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /api/garage                     API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /api/account/data               API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /api/account/data               API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /api/account/data               API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /api/contact/submit             API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /api/contact/submit             API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /api/contact/submit             API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /api/ai/chat                    API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /api/ai/chat                    API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /api/ai/chat                    API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /api/revolut/webhook/           API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /api/revolut/webhook/           API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /api/revolut/webhook/           API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /api/revolut/webhook/x          API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /api/revolut/webhook/x          API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /api/revolut/webhook/x          API503   503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /shop                           HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /shop                           HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /shop                           HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /de/                            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /de/                            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /de/                            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /at/                            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /at/                            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /at/                            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /ch/                            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /ch/                            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /ch/                            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /nl/                            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /nl/                            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /nl/                            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /be-nl/                         HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /be-nl/                         HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /be-nl/                         HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /be-fr/                         HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /be-fr/                         HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /be-fr/                         HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /lu/                            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /lu/                            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /lu/                            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /fitment-checker                HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /fitment-checker                HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /fitment-checker                HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /reifenrechner                  HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /reifenrechner                  HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /reifenrechner                  HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /batterie-berater               HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /batterie-berater               HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /batterie-berater               HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /konto                          HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /konto                          HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /konto                          HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /kundenportal                   HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /kundenportal                   HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /kundenportal                   HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /partner-werden                 HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /partner-werden                 HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /partner-werden                 HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /werkstatt-partner              HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /werkstatt-partner              HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /werkstatt-partner              HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /partnerportal                  HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /partnerportal                  HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /partnerportal                  HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /nachbarschaft                  HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /nachbarschaft                  HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /nachbarschaft                  HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /myadmin                        HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /myadmin                        HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /myadmin                        HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /myADMIN%20v2.dc.html           HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /myADMIN%20v2.dc.html           HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /myADMIN%20v2.dc.html           HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /Investoren-PowerPoint.dc.html  HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /Investoren-PowerPoint.dc.html  HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /Investoren-PowerPoint.dc.html  HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /TEILEKLAR%20Shop.dc.html       HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /TEILEKLAR%20Shop.dc.html       HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /TEILEKLAR%20Shop.dc.html       HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /assets/workshops.json          HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /assets/workshops.json          HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /assets/workshops.json          HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /manifest.webmanifest           HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /manifest.webmanifest           HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /manifest.webmanifest           HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /support.js                     HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /support.js                     HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /support.js                     HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /vendor/basis.css               HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /vendor/basis.css               HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /vendor/basis.css               HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /index.html                     HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /index.html                     HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /index.html                     HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /favicon.png                    HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /favicon.png                    HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /favicon.png                    HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /_tk/                           HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /_tk/                           HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /_tk/                           HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /_tk/fonts/                     HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /_tk/fonts/                     HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /_tk/fonts/                     HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /_tk/fonts/andere.woff2         HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /_tk/fonts/andere.woff2         HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /_tk/fonts/andere.woff2         HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /fonts/archivo-latin-wght-normal.woff2 HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /fonts/archivo-latin-wght-normal.woff2 HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /fonts/archivo-latin-wght-normal.woff2 HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /vendor/fonts.css               HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /vendor/fonts.css               HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /vendor/fonts.css               HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /assets/icon-512.png            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /assets/icon-512.png            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /assets/icon-512.png            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /assets/nexify-ai/icon-512.png  HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /assets/nexify-ai/icon-512.png  HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /assets/nexify-ai/icon-512.png  HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /offline.html                   HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /offline.html                   HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /offline.html                   HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /legal/impressum.html           HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /legal/impressum.html           HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /legal/impressum.html           HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /impressum/                     HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /impressum/                     HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /impressum/                     HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /de/impressum                   HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /de/impressum                   HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /de/impressum                   HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /cookie                         HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /cookie                         HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /cookie                         HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /avv                            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /avv                            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /avv                            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /barrierefreiheit               HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /barrierefreiheit               HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /barrierefreiheit               HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /ki-hinweise                    HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /ki-hinweise                    HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /ki-hinweise                    HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /api                            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /api                            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /api                            HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /pruefpfad-nicht-vorhanden      HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /pruefpfad-nicht-vorhanden      HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /pruefpfad-nicht-vorhanden      HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /                               SEITE    200  200  -      noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /                               SEITE    200  200  -      noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /                               SEITE    503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /impressum                      RECHT    200  200  -      -                no-cache   nein OK
+www.teileklar.shop  HEAD    /impressum                      RECHT    200  200  -      -                no-cache   nein OK
+www.teileklar.shop  OPTIONS /impressum                      RECHT    503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /datenschutz                    RECHT    200  200  -      -                no-cache   nein OK
+www.teileklar.shop  HEAD    /datenschutz                    RECHT    200  200  -      -                no-cache   nein OK
+www.teileklar.shop  OPTIONS /datenschutz                    RECHT    503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /agb                            RECHT    200  200  -      -                no-cache   nein OK
+www.teileklar.shop  HEAD    /agb                            RECHT    200  200  -      -                no-cache   nein OK
+www.teileklar.shop  OPTIONS /agb                            RECHT    503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /widerruf                       RECHT    200  200  -      -                no-cache   nein OK
+www.teileklar.shop  HEAD    /widerruf                       RECHT    200  200  -      -                no-cache   nein OK
+www.teileklar.shop  OPTIONS /widerruf                       RECHT    503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /versand                        RECHT    200  200  -      -                no-cache   nein OK
+www.teileklar.shop  HEAD    /versand                        RECHT    200  200  -      -                no-cache   nein OK
+www.teileklar.shop  OPTIONS /versand                        RECHT    503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /robots.txt                     STATISCH 200  200  -      -                no-cache   nein OK
+www.teileklar.shop  HEAD    /robots.txt                     STATISCH 200  200  -      -                no-cache   nein OK
+www.teileklar.shop  OPTIONS /robots.txt                     STATISCH 503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /sitemap.xml                    STATISCH 200  200  -      -                no-cache   nein OK
+www.teileklar.shop  HEAD    /sitemap.xml                    STATISCH 200  200  -      -                no-cache   nein OK
+www.teileklar.shop  OPTIONS /sitemap.xml                    STATISCH 503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /.well-known/security.txt       STATISCH 200  200  -      -                no-cache   nein OK
+www.teileklar.shop  HEAD    /.well-known/security.txt       STATISCH 200  200  -      -                no-cache   nein OK
+www.teileklar.shop  OPTIONS /.well-known/security.txt       STATISCH 503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /sw.js                          STATISCH 200  200  -      -                no-store   nein OK
+www.teileklar.shop  HEAD    /sw.js                          STATISCH 200  200  -      -                no-store   nein OK
+www.teileklar.shop  OPTIONS /sw.js                          STATISCH 503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /de/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
+www.teileklar.shop  HEAD    /de/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
+www.teileklar.shop  OPTIONS /de/sw.js                       STATISCH 503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /at/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
+www.teileklar.shop  HEAD    /at/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
+www.teileklar.shop  OPTIONS /at/sw.js                       STATISCH 503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /ch/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
+www.teileklar.shop  HEAD    /ch/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
+www.teileklar.shop  OPTIONS /ch/sw.js                       STATISCH 503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /nl/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
+www.teileklar.shop  HEAD    /nl/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
+www.teileklar.shop  OPTIONS /nl/sw.js                       STATISCH 503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /be-nl/sw.js                    STATISCH 200  200  -      -                no-store   nein OK
+www.teileklar.shop  HEAD    /be-nl/sw.js                    STATISCH 200  200  -      -                no-store   nein OK
+www.teileklar.shop  OPTIONS /be-nl/sw.js                    STATISCH 503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /be-fr/sw.js                    STATISCH 200  200  -      -                no-store   nein OK
+www.teileklar.shop  HEAD    /be-fr/sw.js                    STATISCH 200  200  -      -                no-store   nein OK
+www.teileklar.shop  OPTIONS /be-fr/sw.js                    STATISCH 503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /lu/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
+www.teileklar.shop  HEAD    /lu/sw.js                       STATISCH 200  200  -      -                no-store   nein OK
+www.teileklar.shop  OPTIONS /lu/sw.js                       STATISCH 503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /favicon.svg                    ICON     200  200  -      -                public, ma nein OK
+www.teileklar.shop  HEAD    /favicon.svg                    ICON     200  200  -      -                public, ma nein OK
+www.teileklar.shop  OPTIONS /favicon.svg                    ICON     503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /favicon.ico                    ICON     200  200  -      -                public, ma nein OK
+www.teileklar.shop  HEAD    /favicon.ico                    ICON     200  200  -      -                public, ma nein OK
+www.teileklar.shop  OPTIONS /favicon.ico                    ICON     503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /_tk/fonts/archivo-latin-wght-normal.woff2 SCHRIFT  200  200  -      -                public, ma nein OK
+www.teileklar.shop  HEAD    /_tk/fonts/archivo-latin-wght-normal.woff2 SCHRIFT  200  200  -      -                public, ma nein OK
+www.teileklar.shop  OPTIONS /_tk/fonts/archivo-latin-wght-normal.woff2 SCHRIFT  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /_tk/fonts/ibm-plex-mono-latin-500-normal.woff2 SCHRIFT  200  200  -      -                public, ma nein OK
+www.teileklar.shop  HEAD    /_tk/fonts/ibm-plex-mono-latin-500-normal.woff2 SCHRIFT  200  200  -      -                public, ma nein OK
+www.teileklar.shop  OPTIONS /_tk/fonts/ibm-plex-mono-latin-500-normal.woff2 SCHRIFT  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /_tk/og.jpg                     OGBILD   200  200  -      -                public, ma nein OK
+www.teileklar.shop  HEAD    /_tk/og.jpg                     OGBILD   200  200  -      -                public, ma nein OK
+www.teileklar.shop  OPTIONS /_tk/og.jpg                     OGBILD   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /apple-touch-icon.png           KEIN404  404  404  -      noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /apple-touch-icon.png           KEIN404  404  404  -      noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /apple-touch-icon.png           KEIN404  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /apple-touch-icon-precomposed.png KEIN404  404  404  -      noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /apple-touch-icon-precomposed.png KEIN404  404  404  -      noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /apple-touch-icon-precomposed.png KEIN404  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /api/revolut/webhook            WEBHOOK  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /api/revolut/webhook            WEBHOOK  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /api/revolut/webhook            WEBHOOK  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /api/                           API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /api/                           API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /api/                           API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /api/shop/products              API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /api/shop/products              API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /api/shop/products              API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /api/shop/image                 API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /api/shop/image                 API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /api/shop/image                 API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /api/vehicles/search            API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /api/vehicles/search            API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /api/vehicles/search            API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /api/fitment/search             API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /api/fitment/search             API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /api/fitment/search             API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /api/auth/me                    API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /api/auth/me                    API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /api/auth/me                    API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /api/auth/login                 API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /api/auth/login                 API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /api/auth/login                 API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /api/auth/register              API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /api/auth/register              API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /api/auth/register              API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /api/auth/verify                API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /api/auth/verify                API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /api/auth/verify                API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /api/auth/callback              API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /api/auth/callback              API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /api/auth/callback              API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /api/auth/guest                 API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /api/auth/guest                 API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /api/auth/guest                 API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /api/orders                     API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /api/orders                     API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /api/orders                     API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /api/orders/create              API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /api/orders/create              API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /api/orders/create              API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /api/garage                     API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /api/garage                     API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /api/garage                     API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /api/account/data               API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /api/account/data               API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /api/account/data               API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /api/contact/submit             API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /api/contact/submit             API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /api/contact/submit             API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /api/ai/chat                    API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /api/ai/chat                    API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /api/ai/chat                    API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /api/revolut/webhook/           API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /api/revolut/webhook/           API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /api/revolut/webhook/           API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /api/revolut/webhook/x          API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /api/revolut/webhook/x          API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /api/revolut/webhook/x          API503   503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /shop                           HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /shop                           HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /shop                           HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /de/                            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /de/                            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /de/                            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /at/                            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /at/                            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /at/                            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /ch/                            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /ch/                            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /ch/                            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /nl/                            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /nl/                            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /nl/                            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /be-nl/                         HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /be-nl/                         HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /be-nl/                         HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /be-fr/                         HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /be-fr/                         HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /be-fr/                         HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /lu/                            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /lu/                            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /lu/                            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /fitment-checker                HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /fitment-checker                HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /fitment-checker                HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /reifenrechner                  HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /reifenrechner                  HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /reifenrechner                  HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /batterie-berater               HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /batterie-berater               HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /batterie-berater               HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /konto                          HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /konto                          HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /konto                          HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /kundenportal                   HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /kundenportal                   HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /kundenportal                   HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /partner-werden                 HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /partner-werden                 HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /partner-werden                 HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /werkstatt-partner              HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /werkstatt-partner              HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /werkstatt-partner              HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /partnerportal                  HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /partnerportal                  HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /partnerportal                  HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /nachbarschaft                  HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /nachbarschaft                  HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /nachbarschaft                  HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /myadmin                        HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /myadmin                        HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /myadmin                        HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /myADMIN%20v2.dc.html           HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /myADMIN%20v2.dc.html           HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /myADMIN%20v2.dc.html           HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /Investoren-PowerPoint.dc.html  HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /Investoren-PowerPoint.dc.html  HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /Investoren-PowerPoint.dc.html  HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /TEILEKLAR%20Shop.dc.html       HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /TEILEKLAR%20Shop.dc.html       HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /TEILEKLAR%20Shop.dc.html       HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /assets/workshops.json          HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /assets/workshops.json          HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /assets/workshops.json          HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /manifest.webmanifest           HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /manifest.webmanifest           HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /manifest.webmanifest           HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /support.js                     HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /support.js                     HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /support.js                     HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /vendor/basis.css               HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /vendor/basis.css               HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /vendor/basis.css               HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /index.html                     HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /index.html                     HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /index.html                     HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /favicon.png                    HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /favicon.png                    HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /favicon.png                    HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /_tk/                           HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /_tk/                           HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /_tk/                           HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /_tk/fonts/                     HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /_tk/fonts/                     HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /_tk/fonts/                     HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /_tk/fonts/andere.woff2         HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /_tk/fonts/andere.woff2         HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /_tk/fonts/andere.woff2         HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /fonts/archivo-latin-wght-normal.woff2 HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /fonts/archivo-latin-wght-normal.woff2 HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /fonts/archivo-latin-wght-normal.woff2 HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /vendor/fonts.css               HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /vendor/fonts.css               HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /vendor/fonts.css               HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /assets/icon-512.png            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /assets/icon-512.png            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /assets/icon-512.png            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /assets/nexify-ai/icon-512.png  HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /assets/nexify-ai/icon-512.png  HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /assets/nexify-ai/icon-512.png  HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /offline.html                   HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /offline.html                   HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /offline.html                   HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /legal/impressum.html           HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /legal/impressum.html           HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /legal/impressum.html           HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /impressum/                     HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /impressum/                     HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /impressum/                     HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /de/impressum                   HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /de/impressum                   HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /de/impressum                   HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /cookie                         HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /cookie                         HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /cookie                         HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /avv                            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /avv                            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /avv                            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /barrierefreiheit               HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /barrierefreiheit               HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /barrierefreiheit               HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /ki-hinweise                    HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /ki-hinweise                    HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /ki-hinweise                    HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /api                            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /api                            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /api                            HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /pruefpfad-nicht-vorhanden      HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /pruefpfad-nicht-vorhanden      HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /pruefpfad-nicht-vorhanden      HTML503  503  503  86400  noindex          no-store   nein OK
+
+Ende UTC:     2026-11-22 19:31:28
+Abrufe:       528
+Abweichungen: 0
+Hinweis:      528 Antworten ohne Strict-Transport-Security (kein Abnahmekriterium, siehe RUNBOOK Abschnitt 6)
+Nicht geprüft: POST an /api/revolut/webhook (dieses Skript sendet kein POST)
+GESAMT:       IM SOLL
+OK      readback.sh: alle Pfade im Soll
+OK      Beim Dienst kam durch GET/HEAD/OPTIONS nichts an
+
+== 3. Schreibende Methoden (nur 127.0.0.1) ==
+OK      POST /api/revolut/webhook -> 200 (Soll 200) – Webhook wird durchgereicht, Inhalt unverändert
+OK      POST /api/revolut/webhook -> 200 (Soll 200) – Webhook: Signatur-Kopfzeile kommt an
+OK      POST /api/revolut/webhook?probe=1 -> 200 (Soll 200) – Webhook: Pfad und Abfrageteil unverändert
+OK      POST /api/revolut/webhook -> 200 (Soll 200) – Webhook: Hostname wird weitergegeben
+OK      POST /api/orders/create -> 503 (Soll 503) – gesperrt, JSON
+OK      POST /api/auth/login -> 503 (Soll 503) – gesperrt, JSON
+OK      POST /api/auth/register -> 503 (Soll 503) – gesperrt, JSON
+OK      POST /api/auth/verify -> 503 (Soll 503) – gesperrt, JSON
+OK      POST /api/auth/callback -> 503 (Soll 503) – gesperrt, JSON
+OK      POST /api/auth/guest -> 503 (Soll 503) – gesperrt, JSON
+OK      POST /api/contact/submit -> 503 (Soll 503) – gesperrt, JSON
+OK      POST /api/ai/chat -> 503 (Soll 503) – gesperrt, JSON
+OK      POST /api/revolut/webhook/ -> 503 (Soll 503) – gesperrt, JSON
+OK      POST /api/revolut/webhookx -> 503 (Soll 503) – gesperrt, JSON
+OK      PUT /api/revolut/webhook -> 503 (Soll 503) – Webhook mit PUT gesperrt
+OK      DELETE /api/revolut/webhook -> 503 (Soll 503) – Webhook mit DELETE gesperrt
+OK      POST / -> 503 (Soll 503) – gesperrt, Offline-Seite
+OK      POST /impressum -> 503 (Soll 503) – gesperrt, Offline-Seite
+OK      POST /shop -> 503 (Soll 503) – gesperrt, Offline-Seite
+OK      POST /konto -> 503 (Soll 503) – gesperrt, Offline-Seite
+OK      POST /partner-werden -> 503 (Soll 503) – gesperrt, Offline-Seite
+OK      POST /werkstatt-partner -> 503 (Soll 503) – gesperrt, Offline-Seite
+OK      POST /myadmin -> 503 (Soll 503) – gesperrt, Offline-Seite
+OK      POST /sw.js -> 503 (Soll 503) – gesperrt, Offline-Seite
+OK      POST /robots.txt -> 503 (Soll 503) – gesperrt, Offline-Seite
+OK      GET /_tk/fonts/archivo-latin-wght-normal.woff2 -> 200 (Soll 200) – Schrift: Cache-Control
+OK      POST /_tk/fonts/archivo-latin-wght-normal.woff2 -> 503 (Soll 503) – Schrift mit POST gesperrt
+OK      POST /favicon.ico -> 503 (Soll 503) – Icon mit POST gesperrt
+OK      GET /favicon.ico -> 200 (Soll 200) – Icon: Cache-Control
+OK      POST /shop -> 503 (Soll 503) – Kopfzeile X-Robots-Tag bei 503
+OK      POST /shop -> 503 (Soll 503) – Kopfzeile Cache-Control bei 503
+OK      GET /__tk_offline_503.html -> 404 (Soll 404) – interne Hilfsadresse ist von außen nicht abrufbar (404)
+OK      GET /__tk_offline_503.json -> 404 (Soll 404) – interne Hilfsadresse ist von außen nicht abrufbar (404)
+OK      Beim Dienst kamen nur die 4 Webhook-Zustellungen an (4)
+
+== 4. Dienst antwortet nicht ==
+OK      POST /api/revolut/webhook -> 502 (Soll 502) – Webhook bei ausgefallenem Dienst: 502, damit der Zahlungsdienst wiederholt
+OK      GET / -> 200 (Soll 200) – Offline-Seite bleibt erreichbar
+OK      GET /impressum -> 200 (Soll 200) – Rechtsseite bleibt erreichbar (Variante B)
+
+== 5. Variante A (Durchreichen der Rechtsseiten) ==
+2026/11/22 19:31:29 [notice] 31571#31571: signal process started
+OK      GET /impressum -> 200 (Soll 200) – Rechtsseite kommt vom Dienst
+OK      POST /impressum -> 503 (Soll 503) – Rechtsseite mit POST gesperrt
+OK      GET /shop -> 503 (Soll 503) – Shop bleibt gesperrt
+OK      GET /api/shop/products -> 503 (Soll 503) – API bleibt gesperrt
+OK      Beim Dienst kam genau 1 Anfrage an (/impressum)
+
+Fehlerprotokoll nginx (warn und höher): 1 Zeilen
+  2026/11/22 19:31:29 [error] 26857#26857: *566 connect() failed (111: Connection refused) while connecting to upstream, client: 127.0.0.1, server: teileklar.shop, request: "POST /api/revolut/webhook HTTP/1.1", upstream:
+
+GESAMT: BESTANDEN

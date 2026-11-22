@@ -1,0 +1,103 @@
+# Pfadliste für den Offline-Zustand von teileklar.shop.
+# Eine Quelle für: pruefung/readback.sh, nginx/test/lokaltest.sh, cloudflare/worker.test.mjs
+# Format: KLASSE<TAB>PFAD
+#
+# SEITE     GET/HEAD 200, Offline-Seite, X-Robots-Tag noindex, Cache-Control no-store
+# RECHT     GET/HEAD 200, Rechtsseite
+# STATISCH  GET/HEAD 200, Datei des Offline-Zustands
+# ICON      GET/HEAD 200, Content-Type image/svg+xml (eigenes Icon)
+# SCHRIFT   GET/HEAD 200, Content-Type font/woff2 (eigene Schriftdatei)
+# OGBILD    GET/HEAD 200, Content-Type image/jpeg (eigenes Vorschaubild)
+# KEIN404   GET/HEAD 404 (bewusst kein Rasterbild), kein Location
+# WEBHOOK   nur POST wird an den Dienst gereicht (wird hier NICHT gesendet); sonst 503 JSON
+# API503    503 JSON für jede Methode
+# HTML503   503 mit Offline-Seite für jede Methode
+# Für alle 503: Retry-After 86400, Cache-Control no-store, X-Robots-Tag noindex, kein Location.
+SEITE	/
+RECHT	/impressum
+RECHT	/datenschutz
+RECHT	/agb
+RECHT	/widerruf
+RECHT	/versand
+STATISCH	/robots.txt
+STATISCH	/sitemap.xml
+STATISCH	/.well-known/security.txt
+STATISCH	/sw.js
+STATISCH	/de/sw.js
+STATISCH	/at/sw.js
+STATISCH	/ch/sw.js
+STATISCH	/nl/sw.js
+STATISCH	/be-nl/sw.js
+STATISCH	/be-fr/sw.js
+STATISCH	/lu/sw.js
+ICON	/favicon.svg
+ICON	/favicon.ico
+SCHRIFT	/_tk/fonts/archivo-latin-wght-normal.woff2
+SCHRIFT	/_tk/fonts/ibm-plex-mono-latin-500-normal.woff2
+OGBILD	/_tk/og.jpg
+KEIN404	/apple-touch-icon.png
+KEIN404	/apple-touch-icon-precomposed.png
+WEBHOOK	/api/revolut/webhook
+API503	/api/
+API503	/api/shop/products
+API503	/api/shop/image
+API503	/api/vehicles/search
+API503	/api/fitment/search
+API503	/api/auth/me
+API503	/api/auth/login
+API503	/api/auth/register
+API503	/api/auth/verify
+API503	/api/auth/callback
+API503	/api/auth/guest
+API503	/api/orders
+API503	/api/orders/create
+API503	/api/garage
+API503	/api/account/data
+API503	/api/contact/submit
+API503	/api/ai/chat
+API503	/api/revolut/webhook/
+API503	/api/revolut/webhook/x
+HTML503	/shop
+HTML503	/de/
+HTML503	/at/
+HTML503	/ch/
+HTML503	/nl/
+HTML503	/be-nl/
+HTML503	/be-fr/
+HTML503	/lu/
+HTML503	/fitment-checker
+HTML503	/reifenrechner
+HTML503	/batterie-berater
+HTML503	/konto
+HTML503	/kundenportal
+HTML503	/partner-werden
+HTML503	/werkstatt-partner
+HTML503	/partnerportal
+HTML503	/nachbarschaft
+HTML503	/myadmin
+HTML503	/myADMIN%20v2.dc.html
+HTML503	/Investoren-PowerPoint.dc.html
+HTML503	/TEILEKLAR%20Shop.dc.html
+HTML503	/assets/workshops.json
+HTML503	/manifest.webmanifest
+HTML503	/support.js
+HTML503	/vendor/basis.css
+HTML503	/index.html
+HTML503	/favicon.png
+HTML503	/_tk/
+HTML503	/_tk/fonts/
+HTML503	/_tk/fonts/andere.woff2
+HTML503	/fonts/archivo-latin-wght-normal.woff2
+HTML503	/vendor/fonts.css
+HTML503	/assets/icon-512.png
+HTML503	/assets/nexify-ai/icon-512.png
+HTML503	/offline.html
+HTML503	/legal/impressum.html
+HTML503	/impressum/
+HTML503	/de/impressum
+HTML503	/cookie
+HTML503	/avv
+HTML503	/barrierefreiheit
+HTML503	/ki-hinweise
+HTML503	/api
+HTML503	/pruefpfad-nicht-vorhanden
