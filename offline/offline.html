@@ -4,79 +4,141 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>TEILEKLAR.shop – vorübergehend nicht verfügbar</title>
+<meta name="theme-color" content="#0E1315">
+<title>TEILEKLAR.shop – Coming soon</title>
 <!-- Leeres Icon: verhindert die automatische Anfrage nach /favicon.ico. -->
 <link rel="icon" href="data:,">
 <!--
-  Offline-Seite für TEILEKLAR.shop.
-  Eine Datei, keine externen Ressourcen, keine Skripte, keine Schriften, kein Tracking.
-  Diese Datei wird unter "/" mit Status 200 und unter allen gesperrten Pfaden als
-  Fehlerseite mit Status 503 ausgeliefert. Deshalb sind alle Verweise absolut ("/impressum").
-  Gestaltung bewusst neutral (Schwarz/Weiß, Systemschrift): Die auf der Live-Seite
-  vorgefundenen Farben sind im Live-Quelltext als Hausfarben einer anderen Marke
-  ausgewiesen und wurden nicht übernommen (siehe offline/RUNBOOK.md, Abschnitt 9).
+  Coming-Soon-Seite für TEILEKLAR.shop.
+  Eine Datei, keine externen Ressourcen, keine Skripte, keine nachgeladenen Schriften,
+  kein Tracking. Sie wird unter "/" mit Status 200 und unter allen gesperrten Pfaden
+  als Fehlerseite mit Status 503 ausgeliefert; deshalb sind alle Verweise absolut.
+  Gestaltung nach der Shop-Startseite von teileklar.shop (per GET am 22.11.2026 gelesen):
+  Grund #0E1315, Fläche #14191C, Linie #3D454A, Text #FFFFFF, gedämpft #B4B5B6,
+  Akzent #C8F04B; Überschrift fett mit Laufweite -0.05em; kleine Labels in Monospace;
+  Rundungen 4/8/16 px; feines Linienraster und Akzentschein im Hintergrund.
+  Schriften: Archivo und IBM Plex Mono werden nur verwendet, wenn sie auf dem Gerät
+  installiert sind; sonst greifen die Systemschriften dahinter.
 -->
 <style>
-  :root { color-scheme: light dark; --grund: #ffffff; --text: #000000; --linie: #000000; }
-  @media (prefers-color-scheme: dark) {
-    :root { --grund: #000000; --text: #ffffff; --linie: #ffffff; }
+  :root {
+    color-scheme: dark;
+    --grund: #0E1315; --flaeche: #14191C; --linie: #3D454A;
+    --text: #FFFFFF; --gedaempft: #B4B5B6; --akzent: #C8F04B; --auf-akzent: #0B0F11;
+    --sans: Archivo, "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   body {
     margin: 0;
-    background: var(--grund);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--grund);
+    background-image:
+      radial-gradient(56rem 35rem at 78% 12%, rgba(215, 250, 80, 0.16), transparent 62%),
+      linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: auto, 4.5rem 100%;
+    background-repeat: no-repeat, repeat;
     color: var(--text);
-    font: 1.0625rem/1.6 system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font: 1rem/1.6 var(--sans);
+    -webkit-font-smoothing: antialiased;
     overflow-wrap: break-word;
   }
-  .rahmen { max-width: 42rem; margin: 0 auto; padding: 1.25rem; }
-  header { border-bottom: 2px solid var(--linie); }
-  .marke { margin: 0; font-size: 1.125rem; font-weight: 700; letter-spacing: 0.06em; }
-  main { padding-top: 2rem; padding-bottom: 1rem; }
-  h1 { margin: 0 0 1rem; font-size: 1.75rem; line-height: 1.25; overflow-wrap: anywhere; }
-  h2 { margin: 2rem 0 0.5rem; font-size: 1.125rem; line-height: 1.3; }
-  p { margin: 0 0 1rem; }
-  address { font-style: normal; }
-  .kontakt { margin: 0 0 1rem; padding: 1rem; border: 2px solid var(--linie); }
-  .kontakt p { margin: 0; }
-  .kontakt .nummer { display: inline-block; margin-left: 0.25rem; font-size: 1.25rem; font-weight: 700; }
-  a { color: inherit; text-decoration: underline; text-underline-offset: 0.15em; }
-  a:hover { text-decoration-thickness: 3px; }
-  a:focus-visible { outline: 3px solid var(--text); outline-offset: 3px; }
-  footer { border-top: 2px solid var(--linie); }
-  footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; }
-  footer a { display: inline-block; padding: 0.5rem 0; }
+  .rahmen { width: 100%; max-width: 72rem; margin: 0 auto; padding: 0 1.25rem; }
+  @media (min-width: 48em) { .rahmen { padding: 0 2.5rem; } }
+
+  header { border-bottom: 1px solid var(--linie); }
+  header .rahmen { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.75rem; padding-top: 1.25rem; padding-bottom: 1.25rem; }
+  .marke { margin: 0; font-size: 1.25rem; font-weight: 700; line-height: 1; letter-spacing: -0.05em; }
+  .claim { margin: 0; font: 500 0.75rem/1 var(--mono); letter-spacing: 0.03em; color: var(--gedaempft); }
+
+  main { flex: 1 0 auto; padding: 3rem 0 3.5rem; }
+  @media (min-width: 48em) { main { padding: 5.5rem 0 5rem; } }
+
+  .chip {
+    display: inline-flex; align-items: center; gap: 0.5rem; max-width: 100%; overflow-wrap: anywhere;
+    margin: 0 0 1.5rem; padding: 0.375rem 0.75rem;
+    border: 1px solid var(--akzent); border-radius: 4px;
+    font: 500 0.75rem/1.2 var(--mono); letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--akzent);
+  }
+  .chip::before { content: ""; flex: 0 0 auto; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--akzent); }
+  @media (prefers-reduced-motion: no-preference) {
+    .chip::before { animation: puls 2.4s ease-in-out infinite; }
+    @keyframes puls { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+  }
+
+  h1 {
+    margin: 0 0 1.75rem;
+    font-size: clamp(1.875rem, 8.4vw, 5.5rem); font-weight: 700; line-height: 1; letter-spacing: -0.05em;
+    overflow-wrap: anywhere;
+  }
+  h1 .akzent { display: block; color: var(--akzent); }
+  .hinweis { margin: 0 0 2.5rem; max-width: 40rem; padding-left: 1rem; border-left: 2px solid var(--akzent); font-size: 1.125rem; line-height: 1.55; }
+  .hinweis p { margin: 0 0 0.5rem; }
+  .hinweis p:last-child { margin-bottom: 0; }
+  .hinweis .leise { color: var(--gedaempft); }
+
+  .raster { display: grid; gap: 1rem; max-width: 56rem; align-items: start; }
+  @media (min-width: 48em) { .raster { grid-template-columns: 1fr 1fr; } }
+  .karte { min-width: 0; margin: 0; padding: 1.25rem; background: var(--flaeche); border: 1px solid var(--linie); border-radius: 16px; overflow-wrap: anywhere; }
+  .label { margin: 0 0 0.75rem; font: 500 0.75rem/1.2 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--gedaempft); }
+  .karte p { margin: 0; }
+  .nummer { display: inline-block; margin: 0 0 0.25rem; font-size: 1.5rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; color: var(--akzent); }
+  .klein { font-size: 0.875rem; color: var(--gedaempft); }
+  address { font-style: normal; font-size: 0.875rem; line-height: 1.6; color: var(--gedaempft); }
+  address strong { display: block; margin-bottom: 0.25rem; font-size: 1rem; font-weight: 600; color: var(--text); }
+
+  a { color: inherit; text-decoration: underline; text-underline-offset: 0.2em; }
+  a:hover { color: var(--akzent); }
+  a:focus-visible { outline: 3px solid var(--akzent); outline-offset: 3px; border-radius: 4px; }
+
+  footer { border-top: 1px solid var(--linie); background: var(--grund); }
+  footer .rahmen { padding-top: 1rem; padding-bottom: 1.5rem; }
+  footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 1.5rem; }
+  footer a { display: inline-block; padding: 0.625rem 0; font-size: 0.875rem; color: var(--gedaempft); }
+  footer a:hover { color: var(--akzent); }
 </style>
 </head>
 <body>
 <header>
   <div class="rahmen">
-    <p class="marke">TEILEKLAR.shop</p>
+    <p class="marke">TEILEKLAR</p>
+    <p class="claim">NA KLAR.</p>
   </div>
 </header>
 
 <main>
   <div class="rahmen">
-    <h1>TEILEKLAR.shop ist vorübergehend nicht verfügbar.</h1>
-    <p>Neue Bestellungen und Werkstattanfragen sind derzeit nicht möglich.</p>
-    <p>Für bestehende Anliegen erreichen Sie uns über den verifizierten Supportkontakt.</p>
+    <p class="chip"><span lang="en">Coming soon</span></p>
+    <h1>TEILEKLAR.shop <span class="akzent">kommt bald zurück.</span></h1>
 
-    <h2 id="supportkontakt">Supportkontakt</h2>
-    <div class="kontakt" role="group" aria-labelledby="supportkontakt">
-      <p>Telefon: <a class="nummer" href="tel:+31613318856">+31 6 133 188 56</a></p>
-      <p>Mo–Fr 09:00–18:00 Uhr (MEZ)</p>
-      <!-- SUPPORT-MAIL: erst nach bestätigter Zustellbarkeit einsetzen -->
+    <div class="hinweis">
+      <p>TEILEKLAR.shop ist vorübergehend nicht verfügbar. Neue Bestellungen und Werkstattanfragen sind derzeit nicht möglich.</p>
+      <p class="leise">Für bestehende Anliegen erreichen Sie uns über den verifizierten Supportkontakt.</p>
     </div>
 
-    <h2>Anbieter</h2>
-    <address>
-      TEILEKLAR – ein Geschäftsbereich von NeXify AI by NeXify<br>
-      Inhaber: Pascal Courbois (Eenmanszaak nach niederländischem Recht)<br>
-      Graaf van Loonstraat 1E, 5921 JA Venlo, Niederlande<br>
-      KvK-Nr. 90483944 (Kamer van Koophandel, Regio Roermond)<br>
-      USt-IdNr. NL865786276B01
-    </address>
+    <div class="raster">
+      <section class="karte" aria-labelledby="supportkontakt">
+        <h2 class="label" id="supportkontakt">Supportkontakt</h2>
+        <p><a class="nummer" href="tel:+31613318856" aria-label="Telefon +31 6 133 188 56">+31 6 133 188 56</a></p>
+        <p class="klein">Telefon · Mo–Fr 09:00–18:00 Uhr (MEZ)</p>
+        <!-- SUPPORT-MAIL: erst nach bestätigter Zustellbarkeit einsetzen -->
+      </section>
+
+      <section class="karte" aria-labelledby="anbieter">
+        <h2 class="label" id="anbieter">Anbieter</h2>
+        <address>
+          <strong>TEILEKLAR – ein Geschäftsbereich von NeXify AI by NeXify</strong>
+          Inhaber: Pascal Courbois (Eenmanszaak nach niederländischem Recht)<br>
+          Graaf van Loonstraat 1E, 5921 JA Venlo, Niederlande<br>
+          KvK-Nr. 90483944 (Kamer van Koophandel, Regio Roermond)<br>
+          USt-IdNr. NL865786276B01
+        </address>
+      </section>
+    </div>
   </div>
 </main>
 

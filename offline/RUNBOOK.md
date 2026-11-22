@@ -1,4 +1,4 @@
-# RUNBOOK – TEILEKLAR.shop vorübergehend offline nehmen
+# RUNBOOK – TEILEKLAR.shop vorübergehend offline nehmen (Coming-Soon-Seite)
 
 **Status dieses Pakets: `OFFLINE_VORBEREITET`.**
 Es wurde kein Cutover ausgeführt. teileklar.shop ist unverändert online
@@ -7,7 +7,10 @@ Es wurde kein Cutover ausgeführt. teileklar.shop ist unverändert online
 Dieses Runbook führt der Inhaber aus. Jeder Schritt in Abschnitt 3 verändert
 die Produktion; Abschnitt 2 muss vorher vollständig erledigt sein.
 
-Grundlage: Inhaberentscheidung vom 22.11.2026.
+Grundlage: Inhaberentscheidung vom 22.11.2026. Nach einem weiteren Auftrag des
+Inhabers vom selben Tag ist die ausgelieferte Seite eine **Coming-Soon-Seite im
+Erscheinungsbild des Shops** (`offline.html`); Regeln, Statuscodes und Sperren
+sind unverändert.
 
 ---
 
@@ -15,13 +18,13 @@ Grundlage: Inhaberentscheidung vom 22.11.2026.
 
 | Anfrage | Antwort im Offline-Zustand |
 |---|---|
-| `GET/HEAD /` | 200, Offline-Seite, `X-Robots-Tag: noindex`, `Cache-Control: no-store` |
+| `GET/HEAD /` | 200, Coming-Soon-Seite, `X-Robots-Tag: noindex`, `Cache-Control: no-store` |
 | `GET/HEAD /impressum /datenschutz /agb /widerruf /versand` | 200, Rechtsseite |
 | `GET/HEAD /robots.txt /sitemap.xml /.well-known/security.txt` | 200 |
 | `GET/HEAD /sw.js` und `/<markt>/sw.js` | 200, Abschalt-Service-Worker |
 | `POST /api/revolut/webhook` | unverändert an den API-Dienst (Port 8905) |
 | alles andere unter `/api/` (jede Methode) | 503, kurze JSON-Antwort |
-| alles andere (jede Methode) | 503, Offline-Seite als Inhalt |
+| alles andere (jede Methode) | 503, Coming-Soon-Seite als Inhalt |
 
 Jede 503-Antwort trägt `Retry-After: 86400`, `Cache-Control: no-store`,
 `X-Robots-Tag: noindex`. Es gibt keine Weiterleitung (301) und kein 410.
@@ -36,7 +39,7 @@ Dateien:
 
 | Datei | Zweck |
 |---|---|
-| `offline.html` | Offline-Seite (eine Datei, keine externen Ressourcen) |
+| `offline.html` | Coming-Soon-Seite im Erscheinungsbild des Shops (eine Datei, keine externen Ressourcen, kein Datum, kein Formular) |
 | `sw.js` | löscht Browser-Caches, meldet den alten Service Worker ab, lädt neu |
 | `robots.txt`, `sitemap.xml` | Stand für den Offline-Zustand |
 | `nginx/teileklar-offline.conf` | Regelblock zum Einbinden (Allowlist) |
@@ -267,23 +270,36 @@ Das Skript prüft **nicht**:
   Revolut-Händlerkonto die Zustellung der nächsten echten Meldung ansehen
   (Status 2xx) oder im Zugriffsprotokoll von nginx die Zeile
   `POST /api/revolut/webhook` mit dem Status des Dienstes.
-- den Inhalt der Rechtsseiten (nur: 200, nicht leer, nicht die Offline-Seite).
+- den Inhalt der Rechtsseiten (nur: 200, nicht leer, nicht die Coming-Soon-Seite).
 - ob der Ursprung von außen direkt erreichbar ist (Abschnitt 5).
 
 Zusätzlich von Hand: teileklar.shop in einem Browser öffnen, der den Shop
-schon einmal geladen hatte. Erwartet: Offline-Seite, auch nach erneutem Laden.
+schon einmal geladen hatte. Erwartet: Coming-Soon-Seite, auch nach erneutem Laden.
 
 ---
 
 ## 5. Alternative / Überbrückung: Cloudflare Worker
 
 `cloudflare/worker.js` setzt dieselbe Allowlist am Rand um
-(`wrangler.example.toml` als Vorlage). Unterschiede zu nginx:
+(`wrangler.example.toml` als Vorlage). Zum Hochladen ohne Bundler liegt
+dieselbe Logik als eine einzige ES-Modul-Datei vor:
+`cloudflare/dist/worker.bundle.mjs` (erzeugt von `build-bundle.mjs`, keine
+Importe). Unterschiede zu nginx:
 
-- Rechtsseiten und `security.txt` holt der Worker unverändert vom Ursprung
-  (entspricht Variante A). Offline-Seite, `robots.txt`, `sitemap.xml` und
-  `sw.js` liefert er selbst.
-- Der Webhook wird per `fetch` unverändert zum Ursprung gereicht.
+- Rechtsseiten, `/versand`, `/robots.txt`, `/sitemap.xml` und
+  `/.well-known/security.txt` reicht der Worker unverändert an den Ursprung
+  durch (`fetch(request)`), ebenso `POST /api/revolut/webhook`.
+- Die Coming-Soon-Seite und den Abschalt-Service-Worker (`/sw.js`,
+  `/<markt>/sw.js`) liefert er selbst.
+- **Folge, wenn nur der Worker aktiv ist** (ohne den nginx-Regelblock):
+  `robots.txt` und `sitemap.xml` kommen in der bisherigen Fassung vom
+  Ursprung – mit `Disallow: /api/` und mit den Shop-Adressen in der Sitemap,
+  die dann 503 liefern. Die Dateien `offline/robots.txt` und
+  `offline/sitemap.xml` wirken nur über nginx.
+- Fehlerverhalten: Scheitert der Worker selbst, antwortet er mit 503 und
+  lässt den Shop nicht durch. Nur Webhook und die durchgereichten Pfade gehen
+  auch dann an den Ursprung. Ist der Ursprung nicht erreichbar, antwortet er
+  dort mit 502.
 
 **Der Worker allein erfüllt „serverseitig deaktiviert" nicht**, solange der
 Ursprungsserver direkt erreichbar ist: Wer die Adresse des Servers kennt,
@@ -295,7 +311,8 @@ als zweite Schicht vor dem nginx-Regelblock – nicht als Ersatz.
 Vor einem Deploy durch den Inhaber:
 ```bash
 cd cloudflare
-node build-assets.mjs && node --test worker.test.mjs   # muss bestehen
+node build-assets.mjs && node build-bundle.mjs && node --test worker.test.mjs   # muss bestehen
+sha256sum dist/worker.bundle.mjs                       # mit der Prüfsumme im PR vergleichen
 wrangler deploy --dry-run
 ```
 Nicht getestet: der Worker in der Cloudflare-Laufzeit (nur lokal mit Node).
@@ -308,17 +325,17 @@ Nicht getestet: der Worker in der Cloudflare-Laufzeit (nur lokal mit Node).
   `/api/ai/chat` und `/api/contact/submit`. Nach dem Cutover erhält er 503
   und meldet Störung. Vorher pausieren oder umstellen (2.8).
 - **Altpfade von nexifyai.de:** Verweise und Weiterleitungen von dort auf
-  teileklar.shop enden auf der Offline-Seite (`/`) oder mit 503 (alle
+  teileklar.shop enden auf der Coming-Soon-Seite (`/`) oder mit 503 (alle
   anderen Pfade). Welche Pfade das sind, wurde hier nicht erhoben.
 - **Service-Worker-Cache:** Wiederkehrende Besucher haben den alten Service
   Worker (Cache `teileklar-v4`) im Browser. Er lädt Seiten zuerst aus dem
-  Netz, sie sehen also die Offline-Seite. Der neue `sw.js` löscht die Caches
+  Netz, sie sehen also die Coming-Soon-Seite. Der neue `sw.js` löscht die Caches
   und meldet den alten Worker ab – beim ersten Besuch nach dem Cutover,
   wenige Sekunden nach dem Laden, mit einem automatischen Neuladen. Wer die
   Seite nicht mehr besucht, behält den Cache, ohne dass er etwas bewirkt.
   Beim Wiederöffnen muss der Shop seinen Service Worker wieder ausliefern.
 - **Installierte Web-App:** `/manifest.webmanifest` und die Icons antworten
-  mit 503. Eine installierte App zeigt die Offline-Seite.
+  mit 503. Eine installierte App zeigt die Coming-Soon-Seite.
 - **Suchmaschinen:** 503 mit `Retry-After` gilt als vorübergehend. Bleibt
   der Zustand länger bestehen, können Suchmaschinen die Adressen dennoch aus
   dem Index nehmen. Ab welcher Dauer, wurde hier nicht nachgeprüft. Die
@@ -419,12 +436,13 @@ diff <(awk '{print $1,$2,$3,$5}' pruefung/vorher-2026-11-22.txt | grep teileklar
   (zeigt sich erst im Readback über Cloudflare).
 - Verhalten des Abschalt-Service-Workers außerhalb von Chromium.
 - Verhalten des Regelblocks unter nginx 1.28.3 (getestet mit 1.24.0).
-- Markenfarben und -schrift von TEILEKLAR: Die Shop-Startseite verwendet
-  `#0E1315`/`#C8F04B` mit Archivo und IBM Plex Mono; dieselben Farben sind im
-  Quelltext der Rechtsseiten als „Hausfarben von www.nexifyai.cloud"
-  bezeichnet. `/versand` verwendet andere Farben (`#7BD64B`/`#3E7C1E`).
-  Ein eindeutiger eigener Markenwert ließ sich nicht belegen. Die
-  Offline-Seite ist deshalb neutral: Schwarz/Weiß, Systemschrift.
+- Gestaltung: Die Coming-Soon-Seite folgt auf Auftrag des Inhabers der
+  Shop-Startseite (`#0E1315`, `#C8F04B`, Wortmarke „TEILEKLAR" mit „NA KLAR.",
+  fette Überschrift, Monospace-Labels). Dieselben Farben sind im Quelltext
+  der Rechtsseiten als „Hausfarben von www.nexifyai.cloud" bezeichnet; ob sie
+  eigene Markenwerte von TEILEKLAR sind, ist nicht belegt. Archivo und
+  IBM Plex Mono werden nicht nachgeladen; ohne installierte Schrift greifen
+  Systemschriften, das Schriftbild weicht dann vom Shop ab.
 
 ---
 
@@ -443,7 +461,7 @@ Alle Punkte müssen mit Datum, Uhrzeit (UTC) und Beleg erfüllt sein:
 5. Bestandszählung nach dem Cutover wiederholt: keine neue Bestellung, kein
    neues Konto, keine neue Anfrage seit dem Zeitpunkt aus 3.5; keine Zahl
    ist gesunken.
-6. Offline-Seite im Browser gesehen (Handy und Rechner), mit einem Browser,
+6. Coming-Soon-Seite im Browser gesehen (Handy und Rechner), mit einem Browser,
    der den Shop vorher geladen hatte; Telefonlink wählt die richtige Nummer.
 7. Die fünf Rechtsseiten im Browser gelesen: vollständig und zutreffend.
 8. Monitor pausiert oder umgestellt.
@@ -459,9 +477,10 @@ Bis dahin bleibt der Status `OFFLINE_VORBEREITET`.
 |---|---|
 | `nginx -t` mit dem Regelblock, Variante B und A (nginx 1.24.0, lokal) | bestanden |
 | `nginx/test/lokaltest.sh`: lokales nginx + Attrappe als Dienst; 438 lesende Abrufe über `readback.sh`, schreibende Anfragen (POST/PUT/DELETE, nur gegen 127.0.0.1), Ausfall des Dienstes, Variante A | 42 von 42 Prüfungen bestanden – `nginx/test/ergebnis-2026-11-22.txt` |
-| `node --test cloudflare/worker.test.mjs` | 10 von 10 bestanden |
+| `node --test cloudflare/worker.test.mjs` (je Test gegen `worker.js` und gegen `dist/worker.bundle.mjs`, inkl. Fail-closed) | 27 von 27 bestanden |
 | `pruefung/sw-lokaltest.mjs` (Chromium), auch mit einer Kopie des bisherigen `sw.js` | 8 von 8 bestanden |
-| `offline.html` bei 320 px und 1280 px, dunkles Farbschema, doppelte Schriftgröße, Tastaturfokus | kein waagrechter Überlauf, keine externe Anfrage |
+| `offline.html` bei 320 px, 640 px (entspricht 200 % Zoom bei 1280 px) und 1280 px, doppelte Schriftgröße, Tastaturfokus | kein waagrechter Überlauf, keine externe Anfrage |
+| Kontrast (WCAG): Akzent `#C8F04B` auf `#0E1315` 14,27:1, auf `#14191C` 13,51:1; Text `#B4B5B6` auf `#0E1315` 9,11:1, auf `#14191C` 8,63:1; Weiß 18,71:1 / 17,71:1 | AA erfüllt (≥ 4,5:1) |
 | `readback.sh --modus vorher` gegen teileklar.shop | 438 Abrufe, 374 Abweichungen vom Offline-Soll (erwartet: Shop online) – `pruefung/vorher-2026-11-22.txt` |
 
 Nicht getestet: alles auf dem Server, Cloudflare, die echte Zustellung eines

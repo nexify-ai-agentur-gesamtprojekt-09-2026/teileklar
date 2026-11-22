@@ -18,6 +18,7 @@ routes = [
 
 # Vor dem Deploy (durch den Inhaber):
 #   node build-assets.mjs            # Inhalte aus offline/ übernehmen
+#   node build-bundle.mjs            # dist/worker.bundle.mjs (eine Datei, ohne Bundler hochladbar)
 #   node --test worker.test.mjs      # muss bestehen
 #   wrangler deploy --dry-run        # baut, ohne zu veröffentlichen
 # Rückweg: Routen im Cloudflare-Dashboard entfernen oder "wrangler delete".

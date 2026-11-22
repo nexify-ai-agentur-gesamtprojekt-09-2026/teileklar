@@ -1,4 +1,4 @@
-Lokaler Test des nginx-Regelblocks – 2026-11-22 18:52:26 UTC
+Lokaler Test des nginx-Regelblocks – 2026-11-22 19:01:03 UTC
 nginx: nginx version: nginx/1.24.0 (Ubuntu)
 Arbeitsverzeichnis: <ARBEIT>
 
@@ -9,7 +9,7 @@ OK      nginx -t Variante B (statische Kopien, Originaldatei unverändert)
 == 2. Lesende Methoden, Variante B (readback.sh, beide Hostnamen) ==
 TEILEKLAR.shop – Readback gegen das Offline-Soll
 Modus:      nachher
-Beginn UTC: 2026-11-22 18:52:27
+Beginn UTC: 2026-11-22 19:01:04
 Hosts:      teileklar.shop www.teileklar.shop
 Schema:     http   Verbindung an: 127.0.0.1:18080
 Pfadliste:  pfade.tsv (73 Pfade)
@@ -455,7 +455,7 @@ www.teileklar.shop  GET     /pruefpfad-nicht-vorhanden      HTML503  503  503  8
 www.teileklar.shop  HEAD    /pruefpfad-nicht-vorhanden      HTML503  503  503  86400  noindex          no-store   nein OK
 www.teileklar.shop  OPTIONS /pruefpfad-nicht-vorhanden      HTML503  503  503  86400  noindex          no-store   nein OK
 
-Ende UTC:     2026-11-22 18:52:32
+Ende UTC:     2026-11-22 19:01:09
 Abrufe:       438
 Abweichungen: 0
 Hinweis:      438 Antworten ohne Strict-Transport-Security (kein Abnahmekriterium, siehe RUNBOOK Abschnitt 6)
@@ -502,7 +502,7 @@ OK      GET / -> 200 (Soll 200) – Offline-Seite bleibt erreichbar
 OK      GET /impressum -> 200 (Soll 200) – Rechtsseite bleibt erreichbar (Variante B)
 
 == 5. Variante A (Durchreichen der Rechtsseiten) ==
-2026/11/22 18:52:33 [notice] 28456#28456: signal process started
+2026/11/22 19:01:10 [notice] 22825#22825: signal process started
 OK      GET /impressum -> 200 (Soll 200) – Rechtsseite kommt vom Dienst
 OK      POST /impressum -> 503 (Soll 503) – Rechtsseite mit POST gesperrt
 OK      GET /shop -> 503 (Soll 503) – Shop bleibt gesperrt
@@ -510,6 +510,6 @@ OK      GET /api/shop/products -> 503 (Soll 503) – API bleibt gesperrt
 OK      Beim Dienst kam genau 1 Anfrage an (/impressum)
 
 Fehlerprotokoll nginx (warn und höher): 1 Zeilen
-  2026/11/22 18:52:33 [error] 24737#24737: *472 connect() failed (111: Connection refused) while connecting to upstream, client: 127.0.0.1, server: teileklar.shop, request: "POST /api/revolut/webhook HTTP/1.1", upstream:
+  2026/11/22 19:01:10 [error] 19003#19003: *472 connect() failed (111: Connection refused) while connecting to upstream, client: 127.0.0.1, server: teileklar.shop, request: "POST /api/revolut/webhook HTTP/1.1", upstream:
 
 GESAMT: BESTANDEN

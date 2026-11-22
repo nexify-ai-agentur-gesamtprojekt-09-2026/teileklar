@@ -27,4 +27,4 @@ Offline-Paket (TEILEKLAR.shop vorübergehend offline)
 
 - Status: OFFLINE_VORBEREITET – es wurde kein Cutover ausgeführt, teileklar.shop ist unverändert online.
 - Anleitung für den Inhaber: [offline/RUNBOOK.md](offline/RUNBOOK.md)
-- Inhalt: Offline-Seite, Abschalt-Service-Worker, robots.txt und Sitemap, nginx-Regelblock (Allowlist), Cloudflare-Worker als Alternative, Prüfskript mit Vergleichsstand vom 22.11.2026.
+- Inhalt: Coming-Soon-Seite im Erscheinungsbild des Shops (`offline/offline.html`), Abschalt-Service-Worker, robots.txt und Sitemap, nginx-Regelblock (Allowlist), Cloudflare-Worker als Alternative (auch als einzelne Datei `offline/cloudflare/dist/worker.bundle.mjs`), Prüfskript mit Vergleichsstand vom 22.11.2026.

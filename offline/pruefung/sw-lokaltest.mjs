@@ -104,7 +104,7 @@ pruefe(neu.caches.length === 0, `Nach dem Umschalten: alle Caches gelöscht (${J
 pruefe(neu.registrierungen === 0, `Nach dem Umschalten: keine Service-Worker-Registrierung mehr (${neu.registrierungen})`);
 pruefe(!neu.gesteuert, 'Nach dem Umschalten: Seite wird von keinem Service Worker gesteuert');
 pruefe(seitenabrufe - vorher >= 2, `Offenes Fenster wurde automatisch neu geladen (${seitenabrufe - vorher} Abrufe der Seite)`);
-pruefe(/vorübergehend nicht verfügbar/.test(neu.titel), `Angezeigt wird die Offline-Seite (Titel: ${neu.titel})`);
+pruefe(/TEILEKLAR\.shop – Coming soon/.test(neu.titel), `Angezeigt wird die Coming-Soon-Seite (Titel: ${neu.titel})`);
 pruefe((await page.evaluate(() => window.__alterShop)) !== true, 'Kein Skript des alten Shops aus dem Cache geladen');
 
 await browser.close();
