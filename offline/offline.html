@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>TEILEKLAR.shop – vorübergehend nicht verfügbar</title>
+<!-- Leeres Icon: verhindert die automatische Anfrage nach /favicon.ico. -->
+<link rel="icon" href="data:,">
+<!--
+  Offline-Seite für TEILEKLAR.shop.
+  Eine Datei, keine externen Ressourcen, keine Skripte, keine Schriften, kein Tracking.
+  Diese Datei wird unter "/" mit Status 200 und unter allen gesperrten Pfaden als
+  Fehlerseite mit Status 503 ausgeliefert. Deshalb sind alle Verweise absolut ("/impressum").
+  Gestaltung bewusst neutral (Schwarz/Weiß, Systemschrift): Die auf der Live-Seite
+  vorgefundenen Farben sind im Live-Quelltext als Hausfarben einer anderen Marke
+  ausgewiesen und wurden nicht übernommen (siehe offline/RUNBOOK.md, Abschnitt 9).
+-->
+<style>
+  :root { color-scheme: light dark; --grund: #ffffff; --text: #000000; --linie: #000000; }
+  @media (prefers-color-scheme: dark) {
+    :root { --grund: #000000; --text: #ffffff; --linie: #ffffff; }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--grund);
+    color: var(--text);
+    font: 1.0625rem/1.6 system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow-wrap: break-word;
+  }
+  .rahmen { max-width: 42rem; margin: 0 auto; padding: 1.25rem; }
+  header { border-bottom: 2px solid var(--linie); }
+  .marke { margin: 0; font-size: 1.125rem; font-weight: 700; letter-spacing: 0.06em; }
+  main { padding-top: 2rem; padding-bottom: 1rem; }
+  h1 { margin: 0 0 1rem; font-size: 1.75rem; line-height: 1.25; overflow-wrap: anywhere; }
+  h2 { margin: 2rem 0 0.5rem; font-size: 1.125rem; line-height: 1.3; }
+  p { margin: 0 0 1rem; }
+  address { font-style: normal; }
+  .kontakt { margin: 0 0 1rem; padding: 1rem; border: 2px solid var(--linie); }
+  .kontakt p { margin: 0; }
+  .kontakt .nummer { display: inline-block; margin-left: 0.25rem; font-size: 1.25rem; font-weight: 700; }
+  a { color: inherit; text-decoration: underline; text-underline-offset: 0.15em; }
+  a:hover { text-decoration-thickness: 3px; }
+  a:focus-visible { outline: 3px solid var(--text); outline-offset: 3px; }
+  footer { border-top: 2px solid var(--linie); }
+  footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; }
+  footer a { display: inline-block; padding: 0.5rem 0; }
+</style>
+</head>
+<body>
+<header>
+  <div class="rahmen">
+    <p class="marke">TEILEKLAR.shop</p>
+  </div>
+</header>
+
+<main>
+  <div class="rahmen">
+    <h1>TEILEKLAR.shop ist vorübergehend nicht verfügbar.</h1>
+    <p>Neue Bestellungen und Werkstattanfragen sind derzeit nicht möglich.</p>
+    <p>Für bestehende Anliegen erreichen Sie uns über den verifizierten Supportkontakt.</p>
+
+    <h2 id="supportkontakt">Supportkontakt</h2>
+    <div class="kontakt" role="group" aria-labelledby="supportkontakt">
+      <p>Telefon: <a class="nummer" href="tel:+31613318856">+31 6 133 188 56</a></p>
+      <p>Mo–Fr 09:00–18:00 Uhr (MEZ)</p>
+      <!-- SUPPORT-MAIL: erst nach bestätigter Zustellbarkeit einsetzen -->
+    </div>
+
+    <h2>Anbieter</h2>
+    <address>
+      TEILEKLAR – ein Geschäftsbereich von NeXify AI by NeXify<br>
+      Inhaber: Pascal Courbois (Eenmanszaak nach niederländischem Recht)<br>
+      Graaf van Loonstraat 1E, 5921 JA Venlo, Niederlande<br>
+      KvK-Nr. 90483944 (Kamer van Koophandel, Regio Roermond)<br>
+      USt-IdNr. NL865786276B01
+    </address>
+  </div>
+</main>
+
+<footer>
+  <div class="rahmen">
+    <nav aria-label="Rechtliche Hinweise">
+      <ul>
+        <li><a href="/impressum">Impressum</a></li>
+        <li><a href="/datenschutz">Datenschutz</a></li>
+        <li><a href="/agb">AGB</a></li>
+        <li><a href="/widerruf">Widerruf</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

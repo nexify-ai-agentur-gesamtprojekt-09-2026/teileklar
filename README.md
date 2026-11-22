@@ -22,3 +22,9 @@ Beiträge sind willkommen. Bitte eröffne ein Issue oder erstelle einen Pull Req
 License
 
 Dieses Projekt steht unter der MIT-Lizenz — siehe LICENSE.
+
+Offline-Paket (TEILEKLAR.shop vorübergehend offline)
+
+- Status: OFFLINE_VORBEREITET – es wurde kein Cutover ausgeführt, teileklar.shop ist unverändert online.
+- Anleitung für den Inhaber: [offline/RUNBOOK.md](offline/RUNBOOK.md)
+- Inhalt: Offline-Seite, Abschalt-Service-Worker, robots.txt und Sitemap, nginx-Regelblock (Allowlist), Cloudflare-Worker als Alternative, Prüfskript mit Vergleichsstand vom 22.11.2026.
