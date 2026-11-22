@@ -1,6 +1,6 @@
 // Erzeugt assets.generated.js aus den Dateien in offline/, damit der Worker
 // dieselben Inhalte ausliefert wie nginx. Nach jeder Änderung an offline.html,
-// sw.js, favicon.svg, robots.txt oder sitemap.xml ausführen:
+// sw.js, favicon.svg, robots.txt, sitemap.xml, og.jpg oder den Schriften ausführen:
 //
 //     node offline/cloudflare/build-assets.mjs
 //
@@ -20,11 +20,21 @@ export const QUELLEN = {
   SITEMAP_XML: 'sitemap.xml',
 };
 
+// Binärdateien (Schriften, Vorschaubild) werden als Base64 eingebettet.
+export const BINAER = {
+  FONT_ARCHIVO_B64: 'fonts/archivo-latin-wght-normal.woff2',
+  FONT_PLEX_MONO_B64: 'fonts/ibm-plex-mono-latin-500-normal.woff2',
+  OG_JPG_B64: 'og.jpg',
+};
+
 export function erzeuge() {
   let text = '// ERZEUGT von build-assets.mjs – nicht von Hand ändern.\n';
   for (const [name, datei] of Object.entries(QUELLEN)) {
     const inhalt = fs.readFileSync(path.join(offline, datei), 'utf8');
     text += `export const ${name} = ${JSON.stringify(inhalt)};\n`;
+  }
+  for (const [name, datei] of Object.entries(BINAER)) {
+    text += `export const ${name} = ${JSON.stringify(fs.readFileSync(path.join(offline, datei)).toString('base64'))};\n`;
   }
   return text;
 }

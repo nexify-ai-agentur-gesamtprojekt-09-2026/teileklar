@@ -6,6 +6,8 @@
 # RECHT     GET/HEAD 200, Rechtsseite
 # STATISCH  GET/HEAD 200, Datei des Offline-Zustands
 # ICON      GET/HEAD 200, Content-Type image/svg+xml (eigenes Icon)
+# SCHRIFT   GET/HEAD 200, Content-Type font/woff2 (eigene Schriftdatei)
+# OGBILD    GET/HEAD 200, Content-Type image/jpeg (eigenes Vorschaubild)
 # KEIN404   GET/HEAD 404 (bewusst kein Rasterbild), kein Location
 # WEBHOOK   nur POST wird an den Dienst gereicht (wird hier NICHT gesendet); sonst 503 JSON
 # API503    503 JSON für jede Methode
@@ -30,6 +32,9 @@ STATISCH	/be-fr/sw.js
 STATISCH	/lu/sw.js
 ICON	/favicon.svg
 ICON	/favicon.ico
+SCHRIFT	/_tk/fonts/archivo-latin-wght-normal.woff2
+SCHRIFT	/_tk/fonts/ibm-plex-mono-latin-500-normal.woff2
+OGBILD	/_tk/og.jpg
 KEIN404	/apple-touch-icon.png
 KEIN404	/apple-touch-icon-precomposed.png
 WEBHOOK	/api/revolut/webhook
@@ -79,6 +84,11 @@ HTML503	/support.js
 HTML503	/vendor/basis.css
 HTML503	/index.html
 HTML503	/favicon.png
+HTML503	/_tk/
+HTML503	/_tk/fonts/
+HTML503	/_tk/fonts/andere.woff2
+HTML503	/fonts/archivo-latin-wght-normal.woff2
+HTML503	/vendor/fonts.css
 HTML503	/assets/icon-512.png
 HTML503	/assets/nexify-ai/icon-512.png
 HTML503	/offline.html

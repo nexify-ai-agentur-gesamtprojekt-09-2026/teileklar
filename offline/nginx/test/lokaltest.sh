@@ -26,7 +26,9 @@ BASIS="http://127.0.0.1:$NGINX_PORT"
 command -v nginx >/dev/null || { echo "nginx fehlt – Syntax nicht geprüft"; exit 2; }
 command -v node  >/dev/null || { echo "node fehlt"; exit 2; }
 
-mkdir -p "$ARBEIT/webroot/legal" "$ARBEIT/webroot/.well-known" "$ARBEIT/logs" "$ARBEIT/tmp"
+mkdir -p "$ARBEIT/webroot/legal" "$ARBEIT/webroot/.well-known" "$ARBEIT/webroot/_tk/fonts" "$ARBEIT/logs" "$ARBEIT/tmp"
+cp "$OFFLINE"/fonts/*.woff2 "$ARBEIT/webroot/_tk/fonts/"
+cp "$OFFLINE/og.jpg" "$ARBEIT/webroot/_tk/og.jpg"
 cp "$OFFLINE/offline.html" "$OFFLINE/sw.js" "$OFFLINE/favicon.svg" "$OFFLINE/robots.txt" "$OFFLINE/sitemap.xml" "$ARBEIT/webroot/"
 for name in impressum datenschutz agb widerruf versand; do
   printf '<!doctype html><html lang="de"><title>Testkopie %s</title><p>Testkopie der Rechtsseite %s</p></html>\n' "$name" "$name" \
@@ -138,6 +140,8 @@ anfrage "Webhook mit DELETE gesperrt" 503 DELETE /api/revolut/webhook 'service_u
 for pfad in / /impressum /shop /konto /partner-werden /werkstatt-partner /myadmin /sw.js /robots.txt; do
   anfrage "gesperrt, Offline-Seite" 503 POST "$pfad" 'vorübergehend nicht verfügbar' 'retry-after: 86400'
 done
+anfrage "Schrift: Cache-Control" 200 GET /_tk/fonts/archivo-latin-wght-normal.woff2 '' 'cache-control: public, max-age=31536000, immutable'
+anfrage "Schrift mit POST gesperrt" 503 POST /_tk/fonts/archivo-latin-wght-normal.woff2 'vorübergehend nicht verfügbar' 'retry-after: 86400'
 anfrage "Icon mit POST gesperrt" 503 POST /favicon.ico 'vorübergehend nicht verfügbar' 'retry-after: 86400'
 anfrage "Icon: Cache-Control" 200 GET /favicon.ico '<svg' 'cache-control: public, max-age=86400'
 anfrage "Kopfzeile X-Robots-Tag bei 503"  503 POST /shop '' 'x-robots-tag: noindex'

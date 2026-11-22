@@ -5,145 +5,362 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#0E1315">
+<meta name="color-scheme" content="dark">
 <title>TEILEKLAR.shop – Coming soon</title>
+<meta name="description" content="TEILEKLAR.shop ist vorübergehend nicht verfügbar. Neue Bestellungen und Werkstattanfragen sind derzeit nicht möglich. Für bestehende Anliegen: Supportkontakt per Telefon.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TEILEKLAR">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="TEILEKLAR.shop kommt bald zurück.">
+<meta property="og:description" content="TEILEKLAR.shop ist vorübergehend nicht verfügbar. Neue Bestellungen und Werkstattanfragen sind derzeit nicht möglich.">
+<meta property="og:url" content="https://teileklar.shop/">
+<meta property="og:image" content="https://teileklar.shop/_tk/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="TEILEKLAR.shop kommt bald zurück.">
+<meta name="format-detection" content="telephone=no">
 <!-- Eigenes Icon, eingebettet (identisch mit offline/favicon.svg, URL-kodiert): keine Anfrage nach außen. -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%230E1315%22%2F%3E%3Cpath%20fill%3D%22%23C8F04B%22%20d%3D%22M7%208h18v5h-6.5v12h-5V13H7z%22%2F%3E%3C%2Fsvg%3E">
+<!-- Markenschriften vom eigenen Host (SIL Open Font License, siehe offline/fonts/). -->
+<link rel="preload" as="font" type="font/woff2" href="/_tk/fonts/archivo-latin-wght-normal.woff2" crossorigin>
 <!--
   Coming-Soon-Seite für TEILEKLAR.shop.
-  Eine Datei, keine externen Ressourcen, keine Skripte, keine nachgeladenen Schriften,
-  kein Tracking. Sie wird unter "/" mit Status 200 und unter allen gesperrten Pfaden
-  als Fehlerseite mit Status 503 ausgeliefert; deshalb sind alle Verweise absolut.
-  Gestaltung nach der Shop-Startseite von teileklar.shop (per GET am 22.11.2026 gelesen):
-  Grund #0E1315, Fläche #14191C, Linie #3D454A, Text #FFFFFF, gedämpft #B4B5B6,
-  Akzent #C8F04B; Überschrift fett mit Laufweite -0.05em; kleine Labels in Monospace;
-  Rundungen 4/8/16 px; feines Linienraster und Akzentschein im Hintergrund.
-  Schriften: Archivo und IBM Plex Mono werden nur verwendet, wenn sie auf dem Gerät
-  installiert sind; sonst greifen die Systemschriften dahinter.
+  Eine HTML-Datei ohne Skripte und ohne Tracking. Vom eigenen Host kommen nur zwei
+  Schriftdateien und das Vorschaubild für geteilte Links (feste Pfade unter dem Präfix _tk).
+  Sie wird unter "/" mit Status 200 und unter allen gesperrten Pfaden als Fehlerseite
+  mit Status 503 ausgeliefert; deshalb sind alle Verweise absolut.
+  Gestaltung nach der Shop-Welt von TEILEKLAR: Grund #0E1315, Fläche #14191C,
+  Linie #3D454A, Text #FFFFFF, gedämpft #B4B5B6, Akzent #C8F04B; Archivo für Text und
+  Überschrift, IBM Plex Mono für Labels; Rundungen 4/8/16 px. Motiv: Bremsscheibe als
+  technische Zeichnung (reines SVG, kein Produktbild).
 -->
 <style>
+  @font-face {
+    font-family: "Archivo";
+    font-style: normal; font-weight: 100 900; font-display: swap;
+    src: url("/_tk/fonts/archivo-latin-wght-normal.woff2") format("woff2-variations"),
+         url("/_tk/fonts/archivo-latin-wght-normal.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "IBM Plex Mono";
+    font-style: normal; font-weight: 500; font-display: swap;
+    src: url("/_tk/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2");
+  }
+  /* Ersatzschrift mit angeglichenen Maßen: Beim Nachladen der Markenschrift springt nichts. */
+  @font-face {
+    font-family: "Archivo Ersatz";
+    src: local("Arial"), local("Helvetica Neue"), local("Helvetica"), local("Liberation Sans");
+    size-adjust: 99.1%; ascent-override: 88.6%; descent-override: 21.2%; line-gap-override: 0%;
+  }
+
   :root {
     color-scheme: dark;
-    --grund: #0E1315; --flaeche: #14191C; --linie: #3D454A;
+    --grund: #0E1315; --tiefe: #0B0F11; --flaeche: #14191C; --linie: #3D454A;
     --text: #FFFFFF; --gedaempft: #B4B5B6; --akzent: #C8F04B; --auf-akzent: #0B0F11;
-    --sans: Archivo, "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+    --glaskante: rgba(255, 255, 255, 0.16);
+    --sans: "Archivo", "Archivo Ersatz", "Helvetica Neue", Helvetica, Arial, sans-serif;
     --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    --rand: clamp(1.25rem, 4.4vw, 4rem);
+    --weich: cubic-bezier(0.22, 0.7, 0.3, 1);
   }
-  * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; background: var(--grund); }
+  ::selection { background: var(--akzent); color: var(--auf-akzent); }
   body {
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--grund);
-    background-image:
-      radial-gradient(56rem 35rem at 78% 12%, rgba(215, 250, 80, 0.16), transparent 62%),
-      linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-    background-size: auto, 4.5rem 100%;
-    background-repeat: no-repeat, repeat;
-    color: var(--text);
-    font: 1rem/1.6 var(--sans);
-    -webkit-font-smoothing: antialiased;
+    position: relative; margin: 0; min-height: 100vh; min-height: 100svh;
+    display: flex; flex-direction: column; overflow-x: hidden;
+    background: var(--grund); color: var(--text);
+    font: 400 1rem/1.55 var(--sans);
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
     overflow-wrap: break-word;
   }
-  .rahmen { width: 100%; max-width: 72rem; margin: 0 auto; padding: 0 1.25rem; }
-  @media (min-width: 48em) { .rahmen { padding: 0 2.5rem; } }
 
-  header { border-bottom: 1px solid var(--linie); }
-  header .rahmen { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.75rem; padding-top: 1.25rem; padding-bottom: 1.25rem; }
-  .marke { margin: 0; font-size: 1.25rem; font-weight: 700; line-height: 1; letter-spacing: -0.05em; }
-  .claim { margin: 0; font: 500 0.75rem/1 var(--mono); letter-spacing: 0.03em; color: var(--gedaempft); }
+  /* ---------- Hintergrund: Licht, Raster, Korn ---------- */
+  .kulisse { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+  .kulisse::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(60rem 38rem at 82% 30%, rgba(215, 250, 80, 0.13), transparent 62%),
+      radial-gradient(48rem 32rem at 4% 104%, rgba(215, 250, 80, 0.05), transparent 60%),
+      linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: auto, auto, calc((100% - 2 * var(--rand)) / 12) 100%;
+    background-position: 0 0, 0 0, var(--rand) 0;
+  }
+  .kulisse::after {
+    content: ""; position: absolute; inset: 0;
+    box-shadow: inset 0 0 15rem 5.5rem rgba(11, 15, 17, 0.72);
+  }
+  .korn { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.07; mix-blend-mode: overlay; }
 
-  main { flex: 1 0 auto; padding: 3rem 0 3.5rem; }
-  @media (min-width: 48em) { main { padding: 5.5rem 0 5rem; } }
+  /* ---------- Motiv: Bremsscheibe als technische Zeichnung ---------- */
+  .scheibe {
+    position: absolute; z-index: 0; pointer-events: none;
+    width: min(58vw, 54rem); aspect-ratio: 1;
+    right: max(-13vw, -12rem); top: 2.25rem;
+  }
+  .scheibe svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .s-linie { fill: none; stroke: rgba(255, 255, 255, 0.26); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+  .s-fein { fill: none; stroke: rgba(255, 255, 255, 0.12); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .s-achse { fill: none; stroke: rgba(255, 255, 255, 0.2); stroke-width: 1; stroke-dasharray: 18 5 2 5; vector-effect: non-scaling-stroke; }
+  .s-skala { fill: none; stroke: rgba(255, 255, 255, 0.34); stroke-width: 10; }
+  .s-skala-grob { fill: none; stroke: rgba(255, 255, 255, 0.5); stroke-width: 20; }
+  .s-loch { fill: none; stroke: rgba(255, 255, 255, 0.3); stroke-linecap: round; }
+  .s-loch-innen { fill: none; stroke: var(--grund); stroke-linecap: round; }
+  .s-flaeche { fill: url(#reibflaeche); stroke: none; }
+  .s-nabe { fill: url(#nabe); stroke: none; }
+  .s-bohrung { fill: var(--tiefe); stroke: none; }
+  .s-schein { fill: none; stroke: #C8F04B; stroke-width: 10; opacity: 0.5; filter: url(#weich); }
+  .s-steg { fill: none; stroke: rgba(255, 255, 255, 0.2); stroke-width: 12; }
+  .s-licht { fill: none; stroke: url(#lichtkante); stroke-width: 3; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+  .s-marke { fill: var(--akzent); }
+  .dreht { transform-origin: 0 0; }
 
+  /* ---------- Kopf ---------- */
+  .kopf {
+    position: sticky; top: 0; z-index: 3;
+    background: rgba(14, 19, 21, 0.72);
+    -webkit-backdrop-filter: blur(20px) saturate(140%); backdrop-filter: blur(20px) saturate(140%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .kopf-innen {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 1rem;
+    min-height: 4rem; padding: 0.75rem var(--rand);
+  }
+  .marke { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.75rem; margin: 0; min-width: 0; }
+  .wortmarke { font-size: 1.25rem; font-weight: 700; line-height: 1; letter-spacing: -0.05em; }
+  .claim { font: 500 0.75rem/1 var(--mono); letter-spacing: 0.03em; color: var(--gedaempft); white-space: nowrap; }
   .chip {
-    display: inline-flex; align-items: center; gap: 0.5rem; max-width: 100%; overflow-wrap: anywhere;
-    margin: 0 0 1.5rem; padding: 0.375rem 0.75rem;
-    border: 1px solid var(--akzent); border-radius: 4px;
-    font: 500 0.75rem/1.2 var(--mono); letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--akzent);
+    display: inline-flex; align-items: center; gap: 0.5rem; margin: 0;
+    padding: 0.375rem 0.625rem 0.375rem 0.5rem;
+    border: 1px solid rgba(200, 240, 75, 0.45); border-radius: 4px;
+    background: rgba(200, 240, 75, 0.08);
+    font: 500 0.75rem/1.2 var(--mono); letter-spacing: 0.03em; color: var(--akzent);
   }
-  .chip::before { content: ""; flex: 0 0 auto; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--akzent); }
-  @media (prefers-reduced-motion: no-preference) {
-    .chip::before { animation: puls 2.4s ease-in-out infinite; }
-    @keyframes puls { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
-  }
+  .punkt { position: relative; flex: 0 0 auto; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--akzent); }
+  .punkt::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--akzent); opacity: 0; }
 
+  /* ---------- Bühne ---------- */
+  main { position: relative; z-index: 1; flex: 1 0 auto; display: flex; }
+  .buehne {
+    width: 100%; padding: clamp(2.5rem, 7vh, 6rem) var(--rand) clamp(2rem, 5vh, 4rem);
+    display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-rows: 1fr auto; gap: 2.5rem clamp(1.5rem, 4vw, 4rem); align-items: center;
+  }
+  .aussage { grid-column: 1; grid-row: 1 / span 2; min-width: 0; }
   h1 {
-    margin: 0 0 1.75rem;
-    font-size: clamp(1.875rem, 8.4vw, 5.5rem); font-weight: 700; line-height: 1; letter-spacing: -0.05em;
+    margin: 0 0 clamp(1.5rem, 3.4vh, 2.5rem);
+    font-size: clamp(2rem, 5vw + 0.5rem, 5.5rem); font-weight: 700; line-height: 0.98; letter-spacing: -0.05em;
+    text-wrap: balance; overflow-wrap: anywhere;
+  }
+  h1 span { display: block; }
+  h1 .zurueck { color: var(--akzent); }
+  .hinweis { max-width: 36rem; margin: 0 0 clamp(1.75rem, 4vh, 2.75rem); }
+  .hinweis p { margin: 0; font-size: clamp(1.0625rem, 0.5vw + 0.95rem, 1.25rem); line-height: 1.5; }
+  .hinweis p + p { margin-top: 0.75rem; color: var(--gedaempft); }
+
+  .kontakt { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.25rem; }
+  .anruf {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    min-height: 3.5rem; padding: 0.75rem 1.375rem 0.75rem 1.125rem;
+    border-radius: 8px; background: var(--akzent); color: var(--auf-akzent);
+    font-size: 1.25rem; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; text-decoration: none; max-width: 100%;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 1px 2px rgba(0, 0, 0, 0.4), 0 18px 40px -16px rgba(200, 240, 75, 0.45);
+    transition: transform 0.25s var(--weich), box-shadow 0.25s var(--weich), background-color 0.2s ease;
+  }
+  .anruf svg { flex: 0 0 auto; width: 1.25rem; height: 1.25rem; }
+  .anruf:hover { background: #D5F76C; transform: translateY(-1px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 2px 4px rgba(0, 0, 0, 0.4), 0 24px 48px -16px rgba(200, 240, 75, 0.55); }
+  .anruf:active { transform: translateY(0); }
+  .zeiten { margin: 0; min-width: 0; font: 500 0.8125rem/1.5 var(--mono); letter-spacing: 0.01em; color: var(--gedaempft); }
+  .zeiten b { display: block; font-weight: 500; color: var(--text); }
+
+  /* ---------- Glasfläche: Anbieter ---------- */
+  .glas {
+    grid-column: 2; grid-row: 2; justify-self: end; align-self: end; min-width: 0;
+    position: relative; width: 100%; max-width: 24rem; padding: 1.375rem 1.5rem 1.5rem;
+    border: 1px solid var(--glaskante); border-radius: 16px;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.02) 55%), rgba(17, 22, 25, 0.5);
+    -webkit-backdrop-filter: blur(22px) saturate(160%); backdrop-filter: blur(22px) saturate(160%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 2px 6px rgba(0, 0, 0, 0.35), 0 40px 80px -32px rgba(0, 0, 0, 0.7);
     overflow-wrap: anywhere;
   }
-  h1 .akzent { display: block; color: var(--akzent); }
-  .hinweis { margin: 0 0 2.5rem; max-width: 40rem; padding-left: 1rem; border-left: 2px solid var(--akzent); font-size: 1.125rem; line-height: 1.55; }
-  .hinweis p { margin: 0 0 0.5rem; }
-  .hinweis p:last-child { margin-bottom: 0; }
-  .hinweis .leise { color: var(--gedaempft); }
+  .glas::before {
+    content: ""; position: absolute; left: 1.5rem; right: 1.5rem; top: -1px; height: 1px;
+    background: linear-gradient(to right, transparent, rgba(200, 240, 75, 0.7), transparent);
+  }
+  .glas h2 { margin: 0 0 0.875rem; font: 500 0.75rem/1.2 var(--mono); letter-spacing: 0.03em; color: var(--gedaempft); }
+  address { font-style: normal; font-size: 0.8125rem; line-height: 1.6; color: var(--gedaempft); }
+  address strong { display: block; margin-bottom: 0.5rem; font-size: 0.9375rem; font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; color: var(--text); }
 
-  .raster { display: grid; gap: 1rem; max-width: 56rem; align-items: start; }
-  @media (min-width: 48em) { .raster { grid-template-columns: 1fr 1fr; } }
-  .karte { min-width: 0; margin: 0; padding: 1.25rem; background: var(--flaeche); border: 1px solid var(--linie); border-radius: 16px; overflow-wrap: anywhere; }
-  .label { margin: 0 0 0.75rem; font: 500 0.75rem/1.2 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--gedaempft); }
-  .karte p { margin: 0; }
-  .nummer { display: inline-block; margin: 0 0 0.25rem; font-size: 1.5rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; color: var(--akzent); }
-  .klein { font-size: 0.875rem; color: var(--gedaempft); }
-  address { font-style: normal; font-size: 0.875rem; line-height: 1.6; color: var(--gedaempft); }
-  address strong { display: block; margin-bottom: 0.25rem; font-size: 1rem; font-weight: 600; color: var(--text); }
+  /* ---------- Fuß ---------- */
+  .fuss { position: relative; z-index: 1; border-top: 1px solid rgba(255, 255, 255, 0.08); background: rgba(11, 15, 17, 0.6); }
+  .fuss-innen { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 1.5rem; padding: 0.5rem var(--rand); }
+  .fuss ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 1.75rem; }
+  .fuss a { display: inline-flex; align-items: center; min-height: 2.75rem; font-size: 0.875rem; color: var(--gedaempft); text-decoration: none; transition: color 0.2s ease; }
+  .fuss a:hover { color: var(--text); text-decoration: underline; text-underline-offset: 0.25em; }
 
-  a { color: inherit; text-decoration: underline; text-underline-offset: 0.2em; }
-  a:hover { color: var(--akzent); }
   a:focus-visible { outline: 3px solid var(--akzent); outline-offset: 3px; border-radius: 4px; }
+  .anruf:focus-visible { outline-color: var(--text); border-radius: 8px; }
 
-  footer { border-top: 1px solid var(--linie); background: var(--grund); }
-  footer .rahmen { padding-top: 1rem; padding-bottom: 1.5rem; }
-  footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 1.5rem; }
-  footer a { display: inline-block; padding: 0.625rem 0; font-size: 0.875rem; color: var(--gedaempft); }
-  footer a:hover { color: var(--akzent); }
+  /* ---------- Mittlere und kleine Breiten ---------- */
+  @media (min-width: 62em) {
+    h1 .zurueck { white-space: nowrap; }
+  }
+  @media (max-width: 61.99em) {
+    /* Tablet: Aussage oben, Scheibe rechts unten, Glasfläche liegt über ihrem Rand. */
+    .buehne { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; align-items: start; gap: 3rem; }
+    .aussage, .glas { grid-column: 1; grid-row: auto; }
+    .hinweis { max-width: 33rem; }
+    .glas { justify-self: start; align-self: end; max-width: 27rem; }
+    .scheibe { width: min(96vw, 46rem); right: -30vw; top: auto; bottom: -15rem; }
+  }
+  @media (max-width: 30em) {
+    /* Telefon: Scheibe als ruhige Ecke hinter der Überschrift, Text bleibt frei. */
+    .buehne { gap: 2.25rem; }
+    .kontakt { flex-direction: column; align-items: stretch; gap: 0.875rem; }
+    .anruf { justify-content: center; }
+    .glas { max-width: none; }
+    .scheibe {
+      width: 124vw; right: -62vw; top: -2rem; bottom: auto; opacity: 0.85;
+      -webkit-mask-image: linear-gradient(to bottom, #000 16%, transparent 50%); mask-image: linear-gradient(to bottom, #000 16%, transparent 50%);
+    }
+  }
+
+  @media (max-width: 23.4em) {
+    /* Sehr schmale Telefone: Kopf und Fuß bleiben einzeilig. */
+    .kopf-innen { gap: 0.5rem; }
+    .marke { gap: 0.25rem 0.5rem; }
+    .wortmarke { font-size: 1.125rem; }
+    .claim { font-size: 0.6875rem; }
+    .chip { padding: 0.3125rem 0.5rem 0.3125rem 0.4375rem; gap: 0.375rem; font-size: 0.6875rem; }
+    .fuss ul { gap: 0 0.75rem; justify-content: space-between; width: 100%; }
+    .fuss nav { width: 100%; }
+    .fuss a { font-size: 0.8125rem; }
+  }
+
+  /* ---------- Bewegung: ein Auftakt beim Laden, danach nur sehr langsame Drehung ---------- */
+  @media (prefers-reduced-motion: no-preference) {
+    .auf { animation: auf 0.9s var(--weich) both; }
+    .auf-2 { animation-delay: 0.08s; } .auf-3 { animation-delay: 0.16s; } .auf-4 { animation-delay: 0.28s; }
+    .scheibe { animation: einblenden 1.6s ease-out both; }
+    .dreht { animation: drehen 240s linear infinite; }
+    .punkt::after { animation: welle 2.6s ease-out infinite; }
+    .kulisse::before { animation: licht 28s ease-in-out infinite alternate; }
+    @keyframes auf { from { opacity: 0; transform: translateY(0.75rem); } to { opacity: 1; transform: none; } }
+    @keyframes einblenden { from { opacity: 0; } }
+    @keyframes drehen { to { transform: rotate(360deg); } }
+    @keyframes welle { 0% { opacity: 0.6; transform: scale(1); } 70%, 100% { opacity: 0; transform: scale(3.2); } }
+    @keyframes licht { from { background-position: 0 0, 0 0, var(--rand) 0; } to { background-position: -4rem 2rem, 2rem -1rem, var(--rand) 0; } }
+  }
 </style>
 </head>
 <body>
-<header>
-  <div class="rahmen">
-    <p class="marke">TEILEKLAR</p>
-    <p class="claim">NA KLAR.</p>
+<div class="kulisse" aria-hidden="true">
+  <svg class="korn" xmlns="http://www.w3.org/2000/svg" focusable="false">
+    <filter id="korn"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
+    <rect width="100%" height="100%" filter="url(#korn)"/>
+  </svg>
+  <div class="scheibe">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-500 -500 1000 1000" focusable="false">
+      <defs>
+        <linearGradient id="lichtkante" gradientUnits="userSpaceOnUse" x1="-480" y1="-140" x2="60" y2="-480">
+          <stop offset="0" stop-color="#C8F04B" stop-opacity="0"/>
+          <stop offset="0.5" stop-color="#C8F04B" stop-opacity="1"/>
+          <stop offset="1" stop-color="#C8F04B" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="reibflaeche" gradientUnits="userSpaceOnUse" x1="-340" y1="-340" x2="340" y2="340">
+          <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.085"/>
+          <stop offset="0.55" stop-color="#FFFFFF" stop-opacity="0.02"/>
+          <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.045"/>
+        </linearGradient>
+        <radialGradient id="nabe" gradientUnits="userSpaceOnUse" cx="-60" cy="-70" r="300">
+          <stop offset="0" stop-color="#1B2226"/>
+          <stop offset="1" stop-color="#0B0F11"/>
+        </radialGradient>
+        <filter id="weich" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="14"/></filter>
+        <mask id="lichtmaske" maskUnits="userSpaceOnUse" x="-520" y="-520" width="1040" height="1040">
+          <rect x="-520" y="-520" width="1040" height="1040" fill="url(#lichtverlauf)"/>
+        </mask>
+        <linearGradient id="lichtverlauf" gradientUnits="userSpaceOnUse" x1="-480" y1="-140" x2="60" y2="-480">
+          <stop offset="0" stop-color="#000"/><stop offset="0.5" stop-color="#FFF"/><stop offset="1" stop-color="#000"/>
+        </linearGradient>
+      </defs>
+      <!-- Mittellinien und Messskala: stehen still -->
+      <path class="s-achse" d="M-560 0H560M0 -560V560"/>
+      <circle class="s-skala" r="512" pathLength="360" stroke-dasharray="0.25 1.75" transform="rotate(-90)"/>
+      <circle class="s-skala-grob" r="517" pathLength="360" stroke-dasharray="0.3 9.7" transform="rotate(-90)"/>
+      <!-- Scheibe -->
+      <circle class="s-flaeche" r="480"/>
+      <circle class="s-nabe" r="250"/>
+      <circle class="s-bohrung" r="62"/>
+      <circle class="s-steg" r="256" pathLength="360" stroke-dasharray="0.6 4.4"/>
+      <circle class="s-linie" r="480"/>
+      <circle class="s-fein" r="468"/>
+      <circle class="s-fein" r="262"/>
+      <circle class="s-linie" r="250"/>
+      <circle class="s-linie" r="196"/>
+      <circle class="s-fein" r="74"/>
+      <circle class="s-linie" r="62"/>
+      <g class="dreht">
+        <!-- Lochbild der Reibfläche: drei versetzte Reihen -->
+        <circle class="s-loch" r="424" pathLength="360" stroke-width="15" stroke-dasharray="0 10"/>
+        <circle class="s-loch-innen" r="424" pathLength="360" stroke-width="12" stroke-dasharray="0 10"/>
+        <circle class="s-loch" r="364" pathLength="360" stroke-width="15" stroke-dasharray="0 10" stroke-dashoffset="-3.3"/>
+        <circle class="s-loch-innen" r="364" pathLength="360" stroke-width="12" stroke-dasharray="0 10" stroke-dashoffset="-3.3"/>
+        <circle class="s-loch" r="304" pathLength="360" stroke-width="15" stroke-dasharray="0 10" stroke-dashoffset="-6.6"/>
+        <circle class="s-loch-innen" r="304" pathLength="360" stroke-width="12" stroke-dasharray="0 10" stroke-dashoffset="-6.6"/>
+        <!-- Lochkreis der Nabe: fünf Bohrungen -->
+        <circle class="s-loch" r="128" pathLength="360" stroke-width="36" stroke-dasharray="0 72"/>
+        <circle class="s-loch-innen" r="128" pathLength="360" stroke-width="33" stroke-dasharray="0 72"/>
+        <circle class="s-fein" r="128" stroke-dasharray="4 6"/>
+      </g>
+      <!-- Lichtkante: feste Lichtquelle oben links -->
+      <circle class="s-schein" r="480" mask="url(#lichtmaske)"/>
+      <circle class="s-licht" r="480"/>
+      <path class="s-marke" d="M0 -532l9 -16h-18z"/>
+    </svg>
+  </div>
+</div>
+
+<header class="kopf">
+  <div class="kopf-innen">
+    <p class="marke"><span class="wortmarke">TEILEKLAR</span> <span class="claim">NA KLAR.</span></p>
+    <p class="chip"><span class="punkt" aria-hidden="true"></span><span lang="en">Coming soon</span></p>
   </div>
 </header>
 
 <main>
-  <div class="rahmen">
-    <p class="chip"><span lang="en">Coming soon</span></p>
-    <h1>TEILEKLAR.shop <span class="akzent">kommt bald zurück.</span></h1>
-
-    <div class="hinweis">
-      <p>TEILEKLAR.shop ist vorübergehend nicht verfügbar. Neue Bestellungen und Werkstattanfragen sind derzeit nicht möglich.</p>
-      <p class="leise">Für bestehende Anliegen erreichen Sie uns über den verifizierten Supportkontakt.</p>
-    </div>
-
-    <div class="raster">
-      <section class="karte" aria-labelledby="supportkontakt">
-        <h2 class="label" id="supportkontakt">Supportkontakt</h2>
-        <p><a class="nummer" href="tel:+31613318856" aria-label="Telefon +31 6 133 188 56">+31 6 133 188 56</a></p>
-        <p class="klein">Telefon · Mo–Fr 09:00–18:00 Uhr (MEZ)</p>
+  <div class="buehne">
+    <div class="aussage">
+      <h1 class="auf"><span>TEILEKLAR.shop</span> <span class="zurueck">kommt bald zurück.</span></h1>
+      <div class="hinweis auf auf-2">
+        <p>TEILEKLAR.shop ist vorübergehend nicht verfügbar. Neue Bestellungen und Werkstattanfragen sind derzeit nicht möglich.</p>
+        <p>Für bestehende Anliegen erreichen Sie uns über den verifizierten Supportkontakt.</p>
+      </div>
+      <div class="kontakt auf auf-3">
+        <a class="anruf" href="tel:+31613318856" aria-label="Supportkontakt anrufen: +31 6 133 188 56">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+          <span>+31 6 133 188 56</span>
+        </a>
+        <p class="zeiten"><b>Supportkontakt per Telefon</b>Mo–Fr 09:00–18:00 Uhr (MEZ)</p>
         <!-- SUPPORT-MAIL: erst nach bestätigter Zustellbarkeit einsetzen -->
-      </section>
-
-      <section class="karte" aria-labelledby="anbieter">
-        <h2 class="label" id="anbieter">Anbieter</h2>
-        <address>
-          <strong>TEILEKLAR – ein Geschäftsbereich von NeXify AI by NeXify</strong>
-          Inhaber: Pascal Courbois (Eenmanszaak nach niederländischem Recht)<br>
-          Graaf van Loonstraat 1E, 5921 JA Venlo, Niederlande<br>
-          KvK-Nr. 90483944 (Kamer van Koophandel, Regio Roermond)<br>
-          USt-IdNr. NL865786276B01
-        </address>
-      </section>
+      </div>
     </div>
+
+    <section class="glas auf auf-4" aria-labelledby="anbieter">
+      <h2 id="anbieter">Anbieter</h2>
+      <address>
+        <strong>TEILEKLAR – ein Geschäftsbereich von NeXify AI by NeXify</strong>
+        Inhaber: Pascal Courbois (Eenmanszaak nach niederländischem Recht)<br>
+        Graaf van Loonstraat 1E, 5921 JA Venlo, Niederlande<br>
+        KvK-Nr. 90483944 (Kamer van Koophandel, Regio Roermond)<br>
+        USt-IdNr. NL865786276B01
+      </address>
+    </section>
   </div>
 </main>
 
-<footer>
-  <div class="rahmen">
+<footer class="fuss">
+  <div class="fuss-innen">
     <nav aria-label="Rechtliche Hinweise">
       <ul>
         <li><a href="/impressum">Impressum</a></li>

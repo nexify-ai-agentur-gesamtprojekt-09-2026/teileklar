@@ -12,6 +12,7 @@
 //   GET/HEAD  /                                   200 Coming-Soon-Seite
 //   GET/HEAD  /sw.js und /<markt>/sw.js           200 Abschalt-Service-Worker
 //   GET/HEAD  /favicon.svg und /favicon.ico       200 eigenes Icon (SVG, image/svg+xml)
+//   GET/HEAD  /_tk/fonts/…woff2, /_tk/og.jpg      200 eigene Schriften und Vorschaubild
 //   GET/HEAD  /apple-touch-icon.png               404 (kein Rasterbild vorhanden)
 //             /apple-touch-icon-precomposed.png
 //   GET/HEAD  /impressum /datenschutz /agb /widerruf /versand
@@ -31,7 +32,7 @@
 // dieselbe Logik als EINE Datei: dist/worker.bundle.mjs (erzeugt von build-bundle.mjs).
 // =============================================================================
 
-import { OFFLINE_HTML, SW_JS, FAVICON_SVG } from './assets.generated.js';
+import { OFFLINE_HTML, SW_JS, FAVICON_SVG, FONT_ARCHIVO_B64, FONT_PLEX_MONO_B64, OG_JPG_B64 } from './assets.generated.js';
 
 export const RETRY_AFTER_SEKUNDEN = '86400';
 export const WEBHOOK_PFAD = '/api/revolut/webhook';
@@ -51,13 +52,30 @@ export const VOM_URSPRUNG = [
 // ein Abruf statt zwei, und kein erzeugtes Rasterbild, das gepflegt werden müsste.
 const ICON_PFADE = ['/favicon.svg', '/favicon.ico'];
 const OHNE_INHALT_404 = ['/apple-touch-icon.png', '/apple-touch-icon-precomposed.png'];
+// Eigene statische Dateien der Coming-Soon-Seite. Feste Pfade, nur GET/HEAD,
+// vom Worker selbst beantwortet, nie zum Ursprung.
+const DATEIEN = {
+  '/_tk/fonts/archivo-latin-wght-normal.woff2': { b64: FONT_ARCHIVO_B64, typ: 'font/woff2', cache: 'public, max-age=31536000, immutable' },
+  '/_tk/fonts/ibm-plex-mono-latin-500-normal.woff2': { b64: FONT_PLEX_MONO_B64, typ: 'font/woff2', cache: 'public, max-age=31536000, immutable' },
+  '/_tk/og.jpg': { b64: OG_JPG_B64, typ: 'image/jpeg', cache: 'public, max-age=86400' },
+};
+const dekodiert = new Map();
+function bytes(pfad) {
+  if (!dekodiert.has(pfad)) {
+    const roh = atob(DATEIEN[pfad].b64);
+    const feld = new Uint8Array(roh.length);
+    for (let i = 0; i < roh.length; i += 1) feld[i] = roh.charCodeAt(i);
+    dekodiert.set(pfad, feld);
+  }
+  return dekodiert.get(pfad);
+}
 const SW_MUSTER = /^\/(?:(?:de|at|ch|nl|be-nl|be-fr|lu)\/)?sw\.js$/;
 
 /**
  * Reine Entscheidungsfunktion (ohne Netzwerk), damit sie lokal prüfbar ist.
  * @param {string} methode HTTP-Methode
  * @param {string} pfad    Pfad ohne Abfrageteil, so wie er in der Adresse steht
- * @returns {'seite'|'sw'|'icon'|'nicht404'|'ursprung'|'api503'|'html503'}
+ * @returns {'seite'|'sw'|'icon'|'datei'|'nicht404'|'ursprung'|'api503'|'html503'}
  */
 export function route(methode, pfad) {
   const lesend = methode === 'GET' || methode === 'HEAD';
@@ -69,6 +87,7 @@ export function route(methode, pfad) {
     if (pfad === '/') return 'seite';
     if (SW_MUSTER.test(pfad)) return 'sw';
     if (ICON_PFADE.includes(pfad)) return 'icon';
+    if (Object.prototype.hasOwnProperty.call(DATEIEN, pfad)) return 'datei';
     if (OHNE_INHALT_404.includes(pfad)) return 'nicht404';
     if (VOM_URSPRUNG.includes(pfad)) return 'ursprung';
   }
@@ -139,6 +158,16 @@ function beantworte(ziel, request, zumUrsprung) {
         'Content-Type': 'image/svg+xml',
         'Cache-Control': 'public, max-age=86400',
       });
+
+    case 'datei': {
+      const pfad = new URL(request.url).pathname;
+      const datei = DATEIEN[pfad];
+      return antwort(methode, bytes(pfad), 200, {
+        'Content-Type': datei.typ,
+        'Cache-Control': datei.cache,
+        'X-Content-Type-Options': 'nosniff',
+      });
+    }
 
     case 'nicht404':
       return antwort(methode, 'Nicht vorhanden.', 404, {

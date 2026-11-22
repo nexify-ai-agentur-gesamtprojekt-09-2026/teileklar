@@ -31,6 +31,8 @@ sind unverändert.
 | `GET/HEAD /robots.txt /sitemap.xml /.well-known/security.txt` | 200 |
 | `GET/HEAD /sw.js` und `/<markt>/sw.js` | 200, Abschalt-Service-Worker |
 | `GET/HEAD /favicon.svg /favicon.ico` | 200, eigenes Icon als SVG (`image/svg+xml`) |
+| `GET/HEAD /_tk/fonts/archivo-latin-wght-normal.woff2`, `/_tk/fonts/ibm-plex-mono-latin-500-normal.woff2` | 200, eigene Schriftdateien (`font/woff2`, ein Jahr cachebar) |
+| `GET/HEAD /_tk/og.jpg` | 200, eigenes Vorschaubild für geteilte Links (`image/jpeg`) |
 | `GET/HEAD /apple-touch-icon.png`, `/apple-touch-icon-precomposed.png` | 404 (kein Rasterbild vorhanden) |
 | `POST /api/revolut/webhook` | unverändert an den API-Dienst (Port 8905) |
 | alles andere unter `/api/` (jede Methode) | 503, kurze JSON-Antwort |
@@ -50,6 +52,8 @@ Dateien:
 | Datei | Zweck |
 |---|---|
 | `offline.html` | Coming-Soon-Seite im Erscheinungsbild des Shops (eine Datei, keine externen Ressourcen, kein Datum, kein Formular) |
+| `fonts/` | Archivo (variabel, Latin) und IBM Plex Mono 500 (Latin) als WOFF2 aus `@fontsource-variable/archivo` 5.3.0 und `@fontsource/ibm-plex-mono` 5.3.0, mit den OFL-Lizenztexten |
+| `og.jpg` | Vorschaubild 1200 × 630, aus der Seite selbst gerendert |
 | `favicon.svg` | eigenes Icon: dunkle Kachel `#0E1315`, „T" in `#C8F04B`; in `offline.html` zusätzlich eingebettet |
 | `sw.js` | löscht Browser-Caches, meldet den alten Service Worker ab, lädt neu |
 | `robots.txt`, `sitemap.xml` | Stand für den Offline-Zustand |
@@ -208,11 +212,15 @@ Kein Neustart des API-Dienstes. Keine Änderung an Daten, DNS, TLS oder Cloudfla
 ```bash
 sudo mkdir -p /var/www/teileklar-offline
 sudo cp offline.html sw.js favicon.svg robots.txt sitemap.xml /var/www/teileklar-offline/
+sudo mkdir -p /var/www/teileklar-offline/_tk/fonts
+sudo cp fonts/*.woff2 /var/www/teileklar-offline/_tk/fonts/
+sudo cp og.jpg /var/www/teileklar-offline/_tk/og.jpg
 sudo cp nginx/teileklar-offline.conf /etc/nginx/snippets/teileklar-offline.conf
 sudo chmod -R a+rX /var/www/teileklar-offline
 ls -la /var/www/teileklar-offline /var/www/teileklar-offline/legal /var/www/teileklar-offline/.well-known
 ```
-Erwartet: `offline.html`, `sw.js`, `favicon.svg`, `robots.txt`, `sitemap.xml`, fünf Dateien
+Erwartet: `offline.html`, `sw.js`, `favicon.svg`, `robots.txt`, `sitemap.xml`, zwei
+Schriftdateien in `_tk/fonts/`, `_tk/og.jpg`, fünf Dateien
 in `legal/`, `security.txt` in `.well-known/`.
 
 **3.2 Annahmen im Regelblock gegen die bisherige Konfiguration prüfen**
@@ -274,8 +282,8 @@ Das Skript sendet nur GET, HEAD und OPTIONS und folgt keinen Weiterleitungen.
   | tee nachher-ursprung-$(date -u +%Y-%m-%dT%H%MZ).txt
 ```
 Rückgabewert 0 und `GESAMT: IM SOLL` = bestanden. Jede Zeile mit
-`ABWEICHUNG` nennt den Grund. 80 Pfade × 2 Hostnamen × 3 Methoden = 480 Abrufe.
-(Der Vorher-Stand vom 22.11.2026 entstand mit 73 Pfaden, vor Aufnahme der Icon-Pfade.)
+`ABWEICHUNG` nennt den Grund. 88 Pfade × 2 Hostnamen × 3 Methoden = 528 Abrufe.
+(Der Vorher-Stand vom 22.11.2026 entstand mit 73 Pfaden, vor Aufnahme der Icon-, Schrift- und Bildpfade.)
 
 Das Skript prüft **nicht**:
 - `POST /api/revolut/webhook` (es sendet kein POST). Nachweis: Im
@@ -302,7 +310,11 @@ Importe). Unterschiede zu nginx:
   `/.well-known/security.txt` reicht der Worker unverändert an den Ursprung
   durch (`fetch(request)`), ebenso `POST /api/revolut/webhook`.
 - Die Coming-Soon-Seite, den Abschalt-Service-Worker (`/sw.js`,
-  `/<markt>/sw.js`) und das Icon (`/favicon.svg`, `/favicon.ico`) liefert er selbst.
+  `/<markt>/sw.js`), das Icon (`/favicon.svg`, `/favicon.ico`), die beiden
+  Schriftdateien und das Vorschaubild (`/_tk/…`) liefert er selbst. Schriften
+  und Bild sind als Base64 im Bundle eingebettet (Bundle rund 200 KB).
+- Ansehen ohne Deploy: `node cloudflare/lokal-starter.mjs` liefert das Bundle
+  auf `http://127.0.0.1:18300/` aus (der Ursprung ist dabei eine Attrappe).
 - **Folge, wenn nur der Worker aktiv ist** (ohne den nginx-Regelblock):
   `robots.txt` und `sitemap.xml` kommen in der bisherigen Fassung vom
   Ursprung – mit `Disallow: /api/` und mit den Shop-Adressen in der Sitemap,
@@ -455,12 +467,14 @@ diff <(awk '{print $1,$2,$3,$5}' pruefung/vorher-2026-11-22.txt | grep teileklar
 - Verhalten des Abschalt-Service-Workers außerhalb von Chromium.
 - Verhalten des Regelblocks unter nginx 1.28.3 (getestet mit 1.24.0).
 - Gestaltung: Die Coming-Soon-Seite folgt auf Auftrag des Inhabers der
-  Shop-Startseite (`#0E1315`, `#C8F04B`, Wortmarke „TEILEKLAR" mit „NA KLAR.",
-  fette Überschrift, Monospace-Labels). Dieselben Farben sind im Quelltext
+  Shop-Welt (`#0E1315`, `#C8F04B`, Wortmarke „TEILEKLAR" mit „NA KLAR.",
+  Archivo und IBM Plex Mono, Glasflächen). Dieselben Farben sind im Quelltext
   der Rechtsseiten als „Hausfarben von www.nexifyai.cloud" bezeichnet; ob sie
-  eigene Markenwerte von TEILEKLAR sind, ist nicht belegt. Archivo und
-  IBM Plex Mono werden nicht nachgeladen; ohne installierte Schrift greifen
-  Systemschriften, das Schriftbild weicht dann vom Shop ab.
+  eigene Markenwerte von TEILEKLAR sind, ist nicht belegt.
+- Das Motiv (Bremsscheibe als technische Zeichnung) ist frei gezeichnet und
+  bildet kein bestimmtes Produkt ab. Ob es zur Marke passt, entscheidet der Inhaber.
+- Darstellung in Safari und Firefox (Hintergrundunschärfe, SVG-Filter,
+  variable Schrift) ist nicht geprüft; getestet wurde nur Chromium.
 
 ---
 
@@ -494,11 +508,12 @@ Bis dahin bleibt der Status `OFFLINE_VORBEREITET`.
 | Test | Ergebnis |
 |---|---|
 | `nginx -t` mit dem Regelblock, Variante B und A (nginx 1.24.0, lokal) | bestanden |
-| `nginx/test/lokaltest.sh`: lokales nginx + Attrappe als Dienst; 480 lesende Abrufe über `readback.sh`, schreibende Anfragen (POST/PUT/DELETE, nur gegen 127.0.0.1), Ausfall des Dienstes, Variante A | 44 von 44 Prüfungen bestanden – `nginx/test/ergebnis-2026-11-22.txt` |
-| `node --test cloudflare/worker.test.mjs` (je Test gegen `worker.js` und gegen `dist/worker.bundle.mjs`, inkl. Fail-closed und Icon) | 33 von 33 bestanden |
+| `nginx/test/lokaltest.sh`: lokales nginx + Attrappe als Dienst; 528 lesende Abrufe über `readback.sh`, schreibende Anfragen (POST/PUT/DELETE, nur gegen 127.0.0.1), Ausfall des Dienstes, Variante A | 46 von 46 Prüfungen bestanden – `nginx/test/ergebnis-2026-11-22.txt` |
+| `node --test cloudflare/worker.test.mjs` (je Test gegen `worker.js` und gegen `dist/worker.bundle.mjs`, inkl. Fail-closed, Icon, Schriften und Vorschaubild) | 35 von 35 bestanden |
 | `pruefung/sw-lokaltest.mjs` (Chromium), auch mit einer Kopie des bisherigen `sw.js` | 8 von 8 bestanden |
-| `offline.html` bei 320 px, 640 px (entspricht 200 % Zoom bei 1280 px) und 1280 px, doppelte Schriftgröße, Tastaturfokus | kein waagrechter Überlauf, keine externe Anfrage |
-| Kontrast (WCAG): Akzent `#C8F04B` auf `#0E1315` 14,27:1, auf `#14191C` 13,51:1; Text `#B4B5B6` auf `#0E1315` 9,11:1, auf `#14191C` 8,63:1; Weiß 18,71:1 / 17,71:1 | AA erfüllt (≥ 4,5:1) |
+| `offline.html` über das Bundle (lokaler Starter, Chromium) bei 1440, 1280, 768, 390, 320 px; jede Breite von 320 bis 1920 px; 200 % und 400 % Zoom; doppelte Schriftgröße; Tastatur | kein waagrechter Überlauf, Überschrift immer zweizeilig, Layoutsprung (CLS) 0, Reihenfolge Telefon → Rechtslinks, Fokusrahmen 3 px, Telefonziel 56 px hoch, Rechtslinks 44 px |
+| Kontrast, am gerenderten Hintergrund gemessen (hellster Bildpunkt hinter dem Text) | gedämpfter Text `#B4B5B6` mindestens 5,54:1; weißer Text mindestens 10,37:1; Akzent `#C8F04B` auf `#0E1315` 14,27:1; Schrift auf dem Telefonknopf 14,69:1 – AA erfüllt |
+| Gewicht der ersten Ansicht | HTML 21 KB (gzip rund 7 KB) + Archivo 35 KB + IBM Plex Mono 15 KB = rund 72 KB, drei Anfragen, keine Skripte |
 | `readback.sh --modus vorher` gegen teileklar.shop | 438 Abrufe, 374 Abweichungen vom Offline-Soll (erwartet: Shop online) – `pruefung/vorher-2026-11-22.txt` |
 
 Nicht getestet: alles auf dem Server, Cloudflare, die echte Zustellung eines

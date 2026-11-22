@@ -1,4 +1,4 @@
-Lokaler Test des nginx-Regelblocks – 2026-11-22 19:15:22 UTC
+Lokaler Test des nginx-Regelblocks – 2026-11-22 19:31:19 UTC
 nginx: nginx version: nginx/1.24.0 (Ubuntu)
 Arbeitsverzeichnis: <ARBEIT>
 
@@ -9,10 +9,10 @@ OK      nginx -t Variante B (statische Kopien, Originaldatei unverändert)
 == 2. Lesende Methoden, Variante B (readback.sh, beide Hostnamen) ==
 TEILEKLAR.shop – Readback gegen das Offline-Soll
 Modus:      nachher
-Beginn UTC: 2026-11-22 19:15:23
+Beginn UTC: 2026-11-22 19:31:20
 Hosts:      teileklar.shop www.teileklar.shop
 Schema:     http   Verbindung an: 127.0.0.1:18080
-Pfadliste:  pfade.tsv (80 Pfade)
+Pfadliste:  pfade.tsv (88 Pfade)
 Methoden:   GET HEAD OPTIONS (kein POST, keine Weiterleitungen)
 
 HOST                METHODE PFAD                            KLASSE   IST  SOLL RETRY  X-ROBOTS-TAG     CACHE-CTRL HSTS ERGEBNIS
@@ -73,6 +73,15 @@ teileklar.shop      OPTIONS /favicon.svg                    ICON     503  503  8
 teileklar.shop      GET     /favicon.ico                    ICON     200  200  -      -                public, ma nein OK
 teileklar.shop      HEAD    /favicon.ico                    ICON     200  200  -      -                public, ma nein OK
 teileklar.shop      OPTIONS /favicon.ico                    ICON     503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /_tk/fonts/archivo-latin-wght-normal.woff2 SCHRIFT  200  200  -      -                public, ma nein OK
+teileklar.shop      HEAD    /_tk/fonts/archivo-latin-wght-normal.woff2 SCHRIFT  200  200  -      -                public, ma nein OK
+teileklar.shop      OPTIONS /_tk/fonts/archivo-latin-wght-normal.woff2 SCHRIFT  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /_tk/fonts/ibm-plex-mono-latin-500-normal.woff2 SCHRIFT  200  200  -      -                public, ma nein OK
+teileklar.shop      HEAD    /_tk/fonts/ibm-plex-mono-latin-500-normal.woff2 SCHRIFT  200  200  -      -                public, ma nein OK
+teileklar.shop      OPTIONS /_tk/fonts/ibm-plex-mono-latin-500-normal.woff2 SCHRIFT  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /_tk/og.jpg                     OGBILD   200  200  -      -                public, ma nein OK
+teileklar.shop      HEAD    /_tk/og.jpg                     OGBILD   200  200  -      -                public, ma nein OK
+teileklar.shop      OPTIONS /_tk/og.jpg                     OGBILD   503  503  86400  noindex          no-store   nein OK
 teileklar.shop      GET     /apple-touch-icon.png           KEIN404  404  404  -      noindex          no-store   nein OK
 teileklar.shop      HEAD    /apple-touch-icon.png           KEIN404  404  404  -      noindex          no-store   nein OK
 teileklar.shop      OPTIONS /apple-touch-icon.png           KEIN404  503  503  86400  noindex          no-store   nein OK
@@ -220,6 +229,21 @@ teileklar.shop      OPTIONS /index.html                     HTML503  503  503  8
 teileklar.shop      GET     /favicon.png                    HTML503  503  503  86400  noindex          no-store   nein OK
 teileklar.shop      HEAD    /favicon.png                    HTML503  503  503  86400  noindex          no-store   nein OK
 teileklar.shop      OPTIONS /favicon.png                    HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /_tk/                           HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /_tk/                           HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /_tk/                           HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /_tk/fonts/                     HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /_tk/fonts/                     HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /_tk/fonts/                     HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /_tk/fonts/andere.woff2         HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /_tk/fonts/andere.woff2         HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /_tk/fonts/andere.woff2         HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /fonts/archivo-latin-wght-normal.woff2 HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /fonts/archivo-latin-wght-normal.woff2 HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /fonts/archivo-latin-wght-normal.woff2 HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      GET     /vendor/fonts.css               HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      HEAD    /vendor/fonts.css               HTML503  503  503  86400  noindex          no-store   nein OK
+teileklar.shop      OPTIONS /vendor/fonts.css               HTML503  503  503  86400  noindex          no-store   nein OK
 teileklar.shop      GET     /assets/icon-512.png            HTML503  503  503  86400  noindex          no-store   nein OK
 teileklar.shop      HEAD    /assets/icon-512.png            HTML503  503  503  86400  noindex          no-store   nein OK
 teileklar.shop      OPTIONS /assets/icon-512.png            HTML503  503  503  86400  noindex          no-store   nein OK
@@ -313,6 +337,15 @@ www.teileklar.shop  OPTIONS /favicon.svg                    ICON     503  503  8
 www.teileklar.shop  GET     /favicon.ico                    ICON     200  200  -      -                public, ma nein OK
 www.teileklar.shop  HEAD    /favicon.ico                    ICON     200  200  -      -                public, ma nein OK
 www.teileklar.shop  OPTIONS /favicon.ico                    ICON     503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /_tk/fonts/archivo-latin-wght-normal.woff2 SCHRIFT  200  200  -      -                public, ma nein OK
+www.teileklar.shop  HEAD    /_tk/fonts/archivo-latin-wght-normal.woff2 SCHRIFT  200  200  -      -                public, ma nein OK
+www.teileklar.shop  OPTIONS /_tk/fonts/archivo-latin-wght-normal.woff2 SCHRIFT  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /_tk/fonts/ibm-plex-mono-latin-500-normal.woff2 SCHRIFT  200  200  -      -                public, ma nein OK
+www.teileklar.shop  HEAD    /_tk/fonts/ibm-plex-mono-latin-500-normal.woff2 SCHRIFT  200  200  -      -                public, ma nein OK
+www.teileklar.shop  OPTIONS /_tk/fonts/ibm-plex-mono-latin-500-normal.woff2 SCHRIFT  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /_tk/og.jpg                     OGBILD   200  200  -      -                public, ma nein OK
+www.teileklar.shop  HEAD    /_tk/og.jpg                     OGBILD   200  200  -      -                public, ma nein OK
+www.teileklar.shop  OPTIONS /_tk/og.jpg                     OGBILD   503  503  86400  noindex          no-store   nein OK
 www.teileklar.shop  GET     /apple-touch-icon.png           KEIN404  404  404  -      noindex          no-store   nein OK
 www.teileklar.shop  HEAD    /apple-touch-icon.png           KEIN404  404  404  -      noindex          no-store   nein OK
 www.teileklar.shop  OPTIONS /apple-touch-icon.png           KEIN404  503  503  86400  noindex          no-store   nein OK
@@ -460,6 +493,21 @@ www.teileklar.shop  OPTIONS /index.html                     HTML503  503  503  8
 www.teileklar.shop  GET     /favicon.png                    HTML503  503  503  86400  noindex          no-store   nein OK
 www.teileklar.shop  HEAD    /favicon.png                    HTML503  503  503  86400  noindex          no-store   nein OK
 www.teileklar.shop  OPTIONS /favicon.png                    HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /_tk/                           HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /_tk/                           HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /_tk/                           HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /_tk/fonts/                     HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /_tk/fonts/                     HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /_tk/fonts/                     HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /_tk/fonts/andere.woff2         HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /_tk/fonts/andere.woff2         HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /_tk/fonts/andere.woff2         HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /fonts/archivo-latin-wght-normal.woff2 HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /fonts/archivo-latin-wght-normal.woff2 HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /fonts/archivo-latin-wght-normal.woff2 HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  GET     /vendor/fonts.css               HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  HEAD    /vendor/fonts.css               HTML503  503  503  86400  noindex          no-store   nein OK
+www.teileklar.shop  OPTIONS /vendor/fonts.css               HTML503  503  503  86400  noindex          no-store   nein OK
 www.teileklar.shop  GET     /assets/icon-512.png            HTML503  503  503  86400  noindex          no-store   nein OK
 www.teileklar.shop  HEAD    /assets/icon-512.png            HTML503  503  503  86400  noindex          no-store   nein OK
 www.teileklar.shop  OPTIONS /assets/icon-512.png            HTML503  503  503  86400  noindex          no-store   nein OK
@@ -497,10 +545,10 @@ www.teileklar.shop  GET     /pruefpfad-nicht-vorhanden      HTML503  503  503  8
 www.teileklar.shop  HEAD    /pruefpfad-nicht-vorhanden      HTML503  503  503  86400  noindex          no-store   nein OK
 www.teileklar.shop  OPTIONS /pruefpfad-nicht-vorhanden      HTML503  503  503  86400  noindex          no-store   nein OK
 
-Ende UTC:     2026-11-22 19:15:30
-Abrufe:       480
+Ende UTC:     2026-11-22 19:31:28
+Abrufe:       528
 Abweichungen: 0
-Hinweis:      480 Antworten ohne Strict-Transport-Security (kein Abnahmekriterium, siehe RUNBOOK Abschnitt 6)
+Hinweis:      528 Antworten ohne Strict-Transport-Security (kein Abnahmekriterium, siehe RUNBOOK Abschnitt 6)
 Nicht geprüft: POST an /api/revolut/webhook (dieses Skript sendet kein POST)
 GESAMT:       IM SOLL
 OK      readback.sh: alle Pfade im Soll
@@ -532,6 +580,8 @@ OK      POST /werkstatt-partner -> 503 (Soll 503) – gesperrt, Offline-Seite
 OK      POST /myadmin -> 503 (Soll 503) – gesperrt, Offline-Seite
 OK      POST /sw.js -> 503 (Soll 503) – gesperrt, Offline-Seite
 OK      POST /robots.txt -> 503 (Soll 503) – gesperrt, Offline-Seite
+OK      GET /_tk/fonts/archivo-latin-wght-normal.woff2 -> 200 (Soll 200) – Schrift: Cache-Control
+OK      POST /_tk/fonts/archivo-latin-wght-normal.woff2 -> 503 (Soll 503) – Schrift mit POST gesperrt
 OK      POST /favicon.ico -> 503 (Soll 503) – Icon mit POST gesperrt
 OK      GET /favicon.ico -> 200 (Soll 200) – Icon: Cache-Control
 OK      POST /shop -> 503 (Soll 503) – Kopfzeile X-Robots-Tag bei 503
@@ -546,7 +596,7 @@ OK      GET / -> 200 (Soll 200) – Offline-Seite bleibt erreichbar
 OK      GET /impressum -> 200 (Soll 200) – Rechtsseite bleibt erreichbar (Variante B)
 
 == 5. Variante A (Durchreichen der Rechtsseiten) ==
-2026/11/22 19:15:31 [notice] 975#975: signal process started
+2026/11/22 19:31:29 [notice] 31571#31571: signal process started
 OK      GET /impressum -> 200 (Soll 200) – Rechtsseite kommt vom Dienst
 OK      POST /impressum -> 503 (Soll 503) – Rechtsseite mit POST gesperrt
 OK      GET /shop -> 503 (Soll 503) – Shop bleibt gesperrt
@@ -554,6 +604,6 @@ OK      GET /api/shop/products -> 503 (Soll 503) – API bleibt gesperrt
 OK      Beim Dienst kam genau 1 Anfrage an (/impressum)
 
 Fehlerprotokoll nginx (warn und höher): 1 Zeilen
-  2026/11/22 19:15:31 [error] 29381#29381: *516 connect() failed (111: Connection refused) while connecting to upstream, client: 127.0.0.1, server: teileklar.shop, request: "POST /api/revolut/webhook HTTP/1.1", upstream:
+  2026/11/22 19:31:29 [error] 26857#26857: *566 connect() failed (111: Connection refused) while connecting to upstream, client: 127.0.0.1, server: teileklar.shop, request: "POST /api/revolut/webhook HTTP/1.1", upstream:
 
 GESAMT: BESTANDEN

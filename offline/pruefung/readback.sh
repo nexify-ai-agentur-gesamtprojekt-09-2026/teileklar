@@ -170,6 +170,16 @@ pruefe() { # $1=Host $2=Methode $3=Klasse $4=Pfad
       else
         soll="503"; pruefe_503
       fi ;;
+    SCHRIFT|OGBILD)
+      if [ "$lesend" = 1 ]; then
+        soll="200"
+        [ "$IST_STATUS" = "200" ] || GRUND+="Status ${IST_STATUS:-?} statt 200; "
+        local typ="font/woff2"; [ "$klasse" = OGBILD ] && typ="image/jpeg"
+        case "${IST_TYP,,}" in "$typ"*) ;; *) GRUND+="Content-Type '${IST_TYP}' statt $typ; " ;; esac
+        if [ "$methode" = GET ] && [ ! -s "$koerper" ]; then GRUND+="leerer Inhalt; "; fi
+      else
+        soll="503"; pruefe_503
+      fi ;;
     KEIN404)
       if [ "$lesend" = 1 ]; then
         soll="404"

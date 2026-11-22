@@ -32,6 +32,8 @@ const SOLL = {
   STATISCH: [null, 'html503', 'html503'], // lesend: sw oder ursprung (robots, sitemap, security.txt)
   ICON: ['icon', 'html503', 'html503'],
   KEIN404: ['nicht404', 'html503', 'html503'],
+  SCHRIFT: ['datei', 'html503', 'html503'],
+  OGBILD: ['datei', 'html503', 'html503'],
   WEBHOOK: ['api503', 'api503', 'ursprung'],
   API503: ['api503', 'api503', 'api503'],
   HTML503: ['html503', 'html503', 'html503'],
@@ -75,7 +77,21 @@ test('Seite: keine externen Verweise, kein Hinweis auf fremde Werkzeuge', () => 
   assert.doesNotMatch(html, /lovable/i);
   assert.doesNotMatch(html, /<meta[^>]+generator/i);
   assert.doesNotMatch(html, /(?:src|href)="https?:/i);
-  assert.doesNotMatch(html, /<script|<img|<iframe|url\(/i);
+  assert.doesNotMatch(html, /<script|<img|<iframe|@import/i);
+  // Jede url(...) zeigt auf einen eigenen festen Pfad oder auf ein Element im Dokument.
+  for (const [, ziel] of html.matchAll(/url\(\s*["']?([^"')]+)/g)) {
+    assert.match(ziel, /^(?:#[a-z]+|\/_tk\/fonts\/[a-z0-9-]+\.woff2)$/, `url(${ziel})`);
+  }
+  // Jeder Verweis auf /_tk/ ist ein Pfad, den der Worker selbst beantwortet.
+  for (const [pfad] of html.matchAll(/\/_tk\/[A-Za-z0-9._\/-]+/g)) {
+    assert.equal(quellmodul.route('GET', pfad), 'datei', pfad);
+  }
+  assert.match(html, /<html lang="de">/);
+  assert.match(html, /<meta name="robots" content="noindex">/);
+  assert.match(html, /<!-- SUPPORT-MAIL: erst nach bestätigter Zustellbarkeit einsetzen -->/);
+  assert.doesNotMatch(html, /mailto:|[A-Za-z0-9._-]+@[A-Za-z0-9-]+\.[a-z]{2,}/);
+  assert.equal([...html.matchAll(/<h1[\s>]/g)].length, 1);
+  assert.ok(Buffer.byteLength(html) < 30000, `offline.html ist ${Buffer.byteLength(html)} Bytes groß`);
 });
 
 test('dist/worker.bundle.mjs ist aktuell und eine einzelne Datei ohne Import', () => {
@@ -227,6 +243,30 @@ for (const [name, modul] of [['worker.js', quellmodul], ['dist/worker.bundle.mjs
       assert.equal(kopf.status, 200);
       assert.equal(await kopf.text(), '');
       pruefe503(await handle(anfrage('POST', pfad), nie), `POST ${pfad}`);
+    }
+  });
+
+  t('Eigene Dateien: Schriften und Vorschaubild kommen byte-gleich aus dem Worker, nie vom Ursprung', async () => {
+    const dateien = [
+      ['/_tk/fonts/archivo-latin-wght-normal.woff2', 'fonts/archivo-latin-wght-normal.woff2', 'font/woff2', 'public, max-age=31536000, immutable'],
+      ['/_tk/fonts/ibm-plex-mono-latin-500-normal.woff2', 'fonts/ibm-plex-mono-latin-500-normal.woff2', 'font/woff2', 'public, max-age=31536000, immutable'],
+      ['/_tk/og.jpg', 'og.jpg', 'image/jpeg', 'public, max-age=86400'],
+    ];
+    for (const [pfad, datei, typ, cache] of dateien) {
+      const res = await handle(anfrage('GET', pfad), nie);
+      assert.equal(res.status, 200, pfad);
+      assert.equal(res.headers.get('Content-Type'), typ);
+      assert.equal(res.headers.get('Cache-Control'), cache);
+      assert.equal(res.headers.get('Location'), null);
+      const ist = Buffer.from(await res.arrayBuffer());
+      assert.ok(ist.equals(fs.readFileSync(path.join(hier, '..', datei))), `${pfad} ist nicht byte-gleich`);
+      const kopf = await handle(anfrage('HEAD', pfad), nie);
+      assert.equal(kopf.status, 200);
+      assert.equal((await kopf.arrayBuffer()).byteLength, 0);
+      pruefe503(await handle(anfrage('POST', pfad), nie), `POST ${pfad}`);
+    }
+    for (const pfad of ['/_tk/', '/_tk/fonts/', '/_tk/fonts/andere.woff2', '/_tk/og.png', '/_tk/fonts/archivo-latin-wght-normal.woff2/x']) {
+      pruefe503(await handle(anfrage('GET', pfad), nie), pfad);
     }
   });
 
